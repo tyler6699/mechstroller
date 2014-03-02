@@ -26,7 +26,7 @@ public class Device {
 		h = Gdx.graphics.getHeight();
 				
 		// SCALE / RATIO
-		v_width = 1366;
+		v_width = 1024;
 		v_height = 768;
 		w_scale = w/v_width;
 		h_scale = h/v_height;
