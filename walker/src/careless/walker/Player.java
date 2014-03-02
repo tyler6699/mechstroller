@@ -24,12 +24,12 @@ public class Player {
 	public Rectangle hitbox;
 	
 	public Player(Device device){
-		width = device.w_scale * 63;
-		height = device.h_scale * 63;
+		width = device.w_scale * 126;
+		height = device.h_scale * 126;
 		
 		legs_texture = new Texture(Gdx.files.internal("data/walker/legs.png"));
 		leg_frames 	 = TextureRegion.split(legs_texture, 63, 63)[0];
-		legs_anim    = new Animation(.1f, leg_frames);
+		legs_anim    = new Animation(.08f, leg_frames);
 				
 		x = 1336;//(device.w/2);
 		y = 10;//(device.h/2);	
@@ -41,7 +41,7 @@ public class Player {
 		//System.out.println(x + " " + y + " " + width + " " + height);
 		tick += delta;
 		frame = legs_anim.getKeyFrame(tick, true);
-		x -= 0.8f;
+		x -= 1.5f;
 		batch.draw(frame, x, y, width, height);
 		//batch.draw(frame, 1360, 760, width, height);
 	}
