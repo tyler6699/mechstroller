@@ -12,28 +12,32 @@ public class Walker implements ApplicationListener {
 	private SpriteBatch batch;
 	Game game;		// MAIN GAME
 	Device device;  // SCREEN & TOUCH 
-	
+	GameController gc;
+		
 	@Override
 	public void create() {		
 		GLTexture.setEnforcePotImages(false);
 		device = new Device();
-		
 		camera = new OrthographicCamera(device.w, device.h);
 		camera.position.set(device.w/2, device.h/2, 0);
-				
-		System.out.println(camera.viewportWidth + " " + camera.viewportHeight + " " + camera.position.x + " " + camera.position.y);
-		batch = new SpriteBatch();
+						batch = new SpriteBatch();
 		game = new Game(device, camera);
+		gc = new GameController(camera);
+		Gdx.input.setInputProcessor(gc);
 	}
 
 	@Override
 	public void render() {		
+		float delta = Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		camera.update();
+		
+		game.tick(delta,gc);
+		
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-			game.tick(Gdx.graphics.getDeltaTime(), batch);
+			game.tick(delta, batch, gc);
 		batch.end();
 	}
 

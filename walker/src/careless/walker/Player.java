@@ -38,12 +38,9 @@ public class Player {
 	}
 	
 	public void tick(float delta, SpriteBatch batch) {
-		//System.out.println(x + " " + y + " " + width + " " + height);
 		tick += delta;
 		frame = legs_anim.getKeyFrame(tick, true);
-		x -= 1.5f;
 		batch.draw(frame, x, y, width, height);
-		//batch.draw(frame, 1360, 760, width, height);
 	}
 	
 }
