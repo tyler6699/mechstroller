@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Player {
 	public float tick;
 	public float x;
 	public float y;
+	public float head_x;
+	public float head_y;
 	float x_mod=0;
 	float y_mod=0;
 	int scale;
@@ -50,20 +53,22 @@ public class Player {
 		int hw = 45, hh = 61;	
 		heads_texture = new Texture(Gdx.files.internal("data/walker/heads.png"));
 		u_90_frames 	= TextureRegion.split(heads_texture, hw, hh)[0];
-		u_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[1];
+		//u_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[1];
 		u_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[2];
-		u_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[3];
+		//u_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[3];
 		c_frames 		= TextureRegion.split(heads_texture, hw, hh)[4];
-		d_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[5];
+		//d_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[5];
 		d_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[6];
-		d_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[7];
+		//d_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[7];
 		d_90_frames 	= TextureRegion.split(heads_texture, hw, hh)[8];
 		
 		heads_anim    = new Animation(1, c_frames);
 		
 		x = 10;//(device.w/2);
-		y = 30;//(device.h/2);	
+		y = 150;//(device.h/2);	
 		
+		head_x = x + 60 ;
+		head_y = y + 45;
 		hitbox = new Rectangle(x, y, width, height);
 	}
 	
@@ -71,15 +76,103 @@ public class Player {
 		tick += delta;
 		tick = tick > 0 ? tick : 1.28f;
 		
+		//update head position
+		head_x = x + 60 ;
+		head_y = y + 45;
+		
 		int frameNumber = (int)(tick / 0.08f);
 		frameNumber = frameNumber % 16;
 		set_offsets(frameNumber);
-		System.out.println(frameNumber);
-		
-		frame = legs_anim.getKeyFrame(tick, true);
+		//System.out.println(x);
 		head_frame = heads_anim.getKeyFrame(5, false);
+		get_angle();
+		frame = legs_anim.getKeyFrame(tick, true);
+		
 		batch.draw(frame, x, y, width, height);
-		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);			
+		//batch.draw(frame, head_x, head_y, 8, 8);
+		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);
+		
+	}
+	
+	void get_angle(){
+		Vector2 mouse = new Vector2();
+		mouse.set(Gdx.input.getX(),768 - Gdx.input.getY());
+		double rad = Math.atan2(mouse.x - head_x, head_y - mouse.y);
+		double deg = Math.toDegrees(rad);
+		//System.out.println(deg);
+		if (deg > 72 && deg < 108){ // centre
+			heads_anim    = new Animation(1, c_frames);
+			if (deg < 84){
+				head_frame = heads_anim.getKeyFrame(0, false);
+			} else if (deg < 96){
+				head_frame = heads_anim.getKeyFrame(2, false);
+			} else {
+				head_frame = heads_anim.getKeyFrame(4, false);
+			}
+			
+		}else if(deg > 36 && deg < 72){ // down 1
+			heads_anim    = new Animation(1, d_54_frames);
+			if (deg < 48){
+				head_frame = heads_anim.getKeyFrame(0, false);
+			} else if (deg < 60){
+				head_frame = heads_anim.getKeyFrame(2, false);
+			} else {
+				head_frame = heads_anim.getKeyFrame(4, false);
+			}
+			
+		}else if(deg > 0 && deg < 36 ){ // down 2
+			heads_anim = new Animation(1, d_90_frames);
+			if (deg < 12){
+				head_frame = heads_anim.getKeyFrame(0, false);
+			} else if (deg < 24){
+				head_frame = heads_anim.getKeyFrame(2, false);
+			} else {
+				head_frame = heads_anim.getKeyFrame(4, false);
+			}
+
+		}else if(deg > 108 && deg < 144){ // up 1
+			heads_anim    = new Animation(1, u_54_frames);
+			if (deg < 120){
+				head_frame = heads_anim.getKeyFrame(0, false);
+			} else if (deg < 132){
+				head_frame = heads_anim.getKeyFrame(2, false);
+			} else {
+				head_frame = heads_anim.getKeyFrame(4, false);
+			}
+			
+		}else if(deg > 144 && deg < 180){ // up 2
+			heads_anim    = new Animation(1, u_90_frames);
+			if (deg < 156){
+				head_frame = heads_anim.getKeyFrame(0, false);
+			} else if (deg < 168){
+				head_frame = heads_anim.getKeyFrame(2, false);
+			} else {
+				head_frame = heads_anim.getKeyFrame(4, false);
+			}
+			
+		// NEGATIVES
+			
+		}else if(deg > -36 && deg < 0){ // DOWN 2
+			heads_anim    = new Animation(1, d_90_frames);
+			head_frame = heads_anim.getKeyFrame(0, false);
+		
+		}else if(deg > -72 && deg < -36){ // DOWN 1
+			heads_anim    = new Animation(1, d_54_frames);
+			head_frame = heads_anim.getKeyFrame(8, false);
+		
+		}else if(deg > -108 && deg < -72){ // CENTRE
+			heads_anim    = new Animation(1, c_frames);
+			head_frame = heads_anim.getKeyFrame(8, false);
+			
+		}else if(deg > -144 && deg < -108){ // UP 1
+			heads_anim    = new Animation(1, u_54_frames);
+			head_frame = heads_anim.getKeyFrame(8, false);
+			
+		}else if(deg > -180 && deg < -144){ // UP 1
+			heads_anim    = new Animation(1, u_90_frames);
+			head_frame = heads_anim.getKeyFrame(8, false);
+		}
+		
 	}
 	
 	private void set_offsets(int frameNumber){
