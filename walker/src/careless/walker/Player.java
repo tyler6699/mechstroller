@@ -91,9 +91,6 @@ public class Player {
 		batch.draw(frame, x, y, width, height);
 		//batch.draw(frame, head_x, head_y, 8, 8);
 		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);
-		
-		// WEAPON
-		gun.tick(delta, batch);
 	}
 	
 	void get_angle(){

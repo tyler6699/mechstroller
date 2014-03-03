@@ -16,6 +16,7 @@ public class Weapon {
 	private float   accuracy = 1;
 	float           last_shot_count = 0;
 	private float   kickback = 0;
+	public float 	max_heat, heat;
 	
 	// AMMO
 	public ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
@@ -24,18 +25,11 @@ public class Weapon {
 	 this.weapon_fire_rate = weapon_fire_rate;
 	 this.accuracy = accuracy;
 	 bullet  = new Texture(Gdx.files.internal("data/walker/bullet.png"));
+	 max_heat = 1500;
+	 heat = 0;
 	}
 	
 	public void tick(float delta, SpriteBatch batch){
-		if (this.getLast_shot_counter() > getWeapon_fire_rate()) {
-			setLast_shot_counter(0);
-			setReady_to_fire(true);
-		} else {
-			if (!isReady_to_fire()) {
-				setLast_shot_counter((float) this.getLast_shot_counter() + 1);
-			}
-		}
-			
 		for (int x = 0; x < bulletList.size(); x++) {
 			Bullet b = bulletList.get(x);
 			if (b.duration < b.max_duration) {
@@ -46,6 +40,23 @@ public class Weapon {
 				bulletList.remove(x);
 			}
 		}
+	}
+	
+	public void tick(float delta, GameController gc){
+		// COOLDOWN
+		if (heat > 0 && !gc.LMB){
+			heat -= 10;
+		}
+
+		if (this.getLast_shot_counter() > getWeapon_fire_rate()) {
+			setLast_shot_counter(0);
+			setReady_to_fire(true);
+		} else {
+			if (!isReady_to_fire()) {
+				setLast_shot_counter((float) this.getLast_shot_counter() + 1);
+			}
+		}
+			
 	}
 	
 	public boolean isReady_to_fire() {
