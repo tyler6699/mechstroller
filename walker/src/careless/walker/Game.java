@@ -12,6 +12,7 @@ public class Game {
 	Texture cursor, temperature, heat;
 	float max;
 	float percent;
+	boolean last_move_forward;
 	
 	public Game(Device device, OrthographicCamera camera){
 		this.device = device;
@@ -21,6 +22,7 @@ public class Game {
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
 		max =  temperature.getHeight();
+		Gdx.input.setCursorPosition((int)bot.head_x, (int)bot.head_y);
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
 	}
 	
@@ -61,13 +63,23 @@ public class Game {
 		
 		// MOVE BOT - Should be in logic
 		if (gc.move_left){
+			last_move_forward = false;
 			bot.x -= 4f;	
 		} else if (gc.move_right){
+			last_move_forward = true;
 			bot.x += 4f;	
 			delta -= 2*delta;
+		} else if (last_move_forward && bot.frameNumber != 15 && bot.frameNumber != 6){
+			bot.x += 4f;	
+			delta -= 2*delta;
+		} else if (!last_move_forward && bot.frameNumber != 15 && bot.frameNumber != 6){
+			System.out.println(bot.frameNumber);
+			bot.x -= 4f;	
 		} else {
 			delta = 0;
 		}
+		
+		
 		
 		bot.tick(delta, batch);
 	}

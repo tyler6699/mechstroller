@@ -24,6 +24,7 @@ public class Player {
 	public Animation 		legs_anim;
 	public TextureRegion 	frame, head_frame;
 	public double deg, rad;
+	public int frameNumber;
 	
 	public Texture heads_texture;
 	public Animation heads_anim;
@@ -82,7 +83,7 @@ public class Player {
 		head_x = x + 60 ;
 		head_y = y + 45;
 		
-		int frameNumber = (int)(tick / anim_speed);
+		frameNumber = (int)(tick / anim_speed);
 		frameNumber = frameNumber % 16;
 		set_offsets(frameNumber);
 
