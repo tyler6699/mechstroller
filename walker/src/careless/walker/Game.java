@@ -27,7 +27,7 @@ public class Game {
 	public void tick(float delta, GameController gc){		
 		// FIRE BOTS GUNS
 		if (gc.LMB){
-			if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat){
+			if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat && (in_shoot_area()) ){
 				Bullet bullet = new Bullet(bot.head_x, bot.head_y - 8, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2);
 				bot.gun.bulletList.add(bullet);
 				bullet = new Bullet(bot.head_x - 20, bot.head_y - 10, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2);
@@ -41,6 +41,10 @@ public class Game {
 				
 		// WEAPON
 		bot.gun.tick(delta, gc);
+	}
+	
+	public boolean in_shoot_area(){
+		return (bot.deg > -180 && bot.deg < -120) || (bot.deg > -60 && bot.deg < 180);
 	}
 	
 	public void tick(float delta, SpriteBatch batch,GameController gc){

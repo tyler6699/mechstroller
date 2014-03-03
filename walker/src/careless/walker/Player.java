@@ -23,6 +23,7 @@ public class Player {
 	public TextureRegion[] 	leg_frames;
 	public Animation 		legs_anim;
 	public TextureRegion 	frame, head_frame;
+	public double deg, rad;
 	
 	public Texture heads_texture;
 	public Animation heads_anim;
@@ -97,12 +98,15 @@ public class Player {
 	void get_angle(){
 		Vector2 mouse = new Vector2();
 		mouse.set(Gdx.input.getX(),768 - Gdx.input.getY());
-		double rad = Math.atan2(mouse.x - head_x, head_y - mouse.y);
-		double deg = Math.toDegrees(rad);
+		rad = Math.atan2(mouse.x - head_x, head_y - mouse.y);
+		deg = Math.toDegrees(rad);
 
+		//System.out.println(deg);
+		
 		if (deg > 72 && deg < 108){ // centre
 			heads_anim    = new Animation(1, c_frames);
 			if (deg < 84){
+				
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 96){
 				head_frame = heads_anim.getKeyFrame(1, false);
@@ -133,9 +137,9 @@ public class Player {
 		}else if(deg > 108 && deg < 144){ // up 1
 			heads_anim    = new Animation(1, u_54_frames);
 			if (deg < 120){
-				head_frame = heads_anim.getKeyFrame(0, false);
-			} else if (deg < 132){
 				head_frame = heads_anim.getKeyFrame(1, false);
+			} else if (deg < 132){
+				head_frame = heads_anim.getKeyFrame(3, false);
 			} else {
 				head_frame = heads_anim.getKeyFrame(2, false);
 			}
@@ -143,7 +147,7 @@ public class Player {
 		}else if(deg > 144 && deg < 180){ // up 2
 			heads_anim    = new Animation(1, u_90_frames);
 			if (deg < 156){
-				head_frame = heads_anim.getKeyFrame(0, false);
+				head_frame = heads_anim.getKeyFrame(3, false);
 			} else if (deg < 168){
 				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
@@ -158,7 +162,7 @@ public class Player {
 		
 		}else if(deg > -72 && deg < -36){ // DOWN 1
 			heads_anim    = new Animation(1, d_54_frames);
-			head_frame = heads_anim.getKeyFrame(3, false);
+			head_frame = heads_anim.getKeyFrame(0, false);
 		
 		}else if(deg > -108 && deg < -72){ // CENTRE
 			heads_anim    = new Animation(1, c_frames);
@@ -168,7 +172,7 @@ public class Player {
 			heads_anim    = new Animation(1, u_54_frames);
 			head_frame = heads_anim.getKeyFrame(3, false);
 			
-		}else if(deg > -180 && deg < -144){ // UP 1
+		}else if(deg > -180 && deg < -144){ // UP 2
 			heads_anim    = new Animation(1, u_90_frames);
 			head_frame = heads_anim.getKeyFrame(3, false);
 		}
