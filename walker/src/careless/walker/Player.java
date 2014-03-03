@@ -17,6 +17,7 @@ public class Player {
 	float x_mod=0;
 	float y_mod=0;
 	int scale;
+	float anim_speed;
 	
 	public Texture 			legs_texture;
 	public TextureRegion[] 	leg_frames;
@@ -45,14 +46,14 @@ public class Player {
 	public Player(Device device){
 		// WEAPON
 		gun = new Weapon(5,1);
-		
+		anim_speed = .03f;
 		scale = 1;
 		width = device.w_scale * (63*scale);
 		height = device.h_scale * (63*scale);
-		tick = 1.28f;
+		tick = 16*anim_speed;
 		legs_texture = new Texture(Gdx.files.internal("data/walker/legs.png"));
 		leg_frames 	 = TextureRegion.split(legs_texture, 63, 63)[0];
-		legs_anim    = new Animation(.08f, leg_frames);
+		legs_anim    = new Animation(anim_speed, leg_frames);
 		
 		int hw = 45, hh = 61;	
 		heads_texture = new Texture(Gdx.files.internal("data/walker/less-heads.png"));
@@ -74,16 +75,16 @@ public class Player {
 	
 	public void tick(float delta, SpriteBatch batch) {
 		tick += delta;
-		tick = tick > 0 ? tick : 1.28f;
+		tick = tick > 0 ? tick : 16*anim_speed;
 		
 		//update head position
 		head_x = x + 60 ;
 		head_y = y + 45;
 		
-		int frameNumber = (int)(tick / 0.08f);
+		int frameNumber = (int)(tick / anim_speed);
 		frameNumber = frameNumber % 16;
 		set_offsets(frameNumber);
-		//System.out.println(x);
+
 		head_frame = heads_anim.getKeyFrame(5, false);
 		get_angle();
 		frame = legs_anim.getKeyFrame(tick, true);

@@ -45,7 +45,7 @@ public class Weapon {
 	public void tick(float delta, GameController gc){
 		// COOLDOWN
 		if (heat > 0 && !gc.LMB){
-			heat -= 10;
+			heat -= 20;
 		}
 
 		if (this.getLast_shot_counter() > getWeapon_fire_rate()) {

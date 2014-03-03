@@ -10,6 +10,8 @@ public class Game {
 	OrthographicCamera camera;
 	Player bot;
 	Texture cursor, temperature, heat;
+	float max;
+	float percent;
 	
 	public Game(Device device, OrthographicCamera camera){
 		this.device = device;
@@ -18,17 +20,11 @@ public class Game {
 		cursor = new Texture(Gdx.files.internal("data/walker/crosshair.png"));
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
+		max =  temperature.getHeight();
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
 	}
 	
-	public void tick(float delta, GameController gc){
-		// MOVE BOT
-		if (gc.move_left){
-			bot.x -= 1.5f;	
-		} else if (gc.move_right){
-			bot.x += 1.5f;	
-		}
-		
+	public void tick(float delta, GameController gc){		
 		// FIRE BOTS GUNS
 		if (gc.LMB){
 			if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat){
@@ -39,10 +35,10 @@ public class Game {
 				
 				// GUN LOGIC
 				bot.gun.setReady_to_fire(false);
-				bot.gun.heat += 100;
+				bot.gun.heat += 80;
 			}
 		}
-		
+				
 		// WEAPON
 		bot.gun.tick(delta, gc);
 	}
@@ -54,20 +50,21 @@ public class Game {
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
 		
-		float max =  temperature.getHeight();
-		float percent = (bot.gun.heat / bot.gun.max_heat) * max;
+		percent = (bot.gun.heat / bot.gun.max_heat) * max;
 		percent = percent > max ? max : percent;
-		//System.out.println(percent);
+
 		batch.draw(heat, 10,758-temperature.getHeight(), temperature.getWidth(),percent);
 		
+		// MOVE BOT - Should be in logic
 		if (gc.move_left){
-			bot.x -= 1.5f;	
+			bot.x -= 4f;	
 		} else if (gc.move_right){
-			bot.x += 1.5f;	
+			bot.x += 4f;	
 			delta -= 2*delta;
 		} else {
 			delta = 0;
 		}
+		
 		bot.tick(delta, batch);
 	}
 	
