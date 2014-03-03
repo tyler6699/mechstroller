@@ -40,8 +40,12 @@ public class Player {
 	public float height;
 	public float width;
 	public Rectangle hitbox;
+	public Weapon gun;
 	
 	public Player(Device device){
+		// WEAPON
+		gun = new Weapon(5,1);
+		
 		scale = 1;
 		width = device.w_scale * (63*scale);
 		height = device.h_scale * (63*scale);
@@ -51,16 +55,12 @@ public class Player {
 		legs_anim    = new Animation(.08f, leg_frames);
 		
 		int hw = 45, hh = 61;	
-		heads_texture = new Texture(Gdx.files.internal("data/walker/heads.png"));
+		heads_texture = new Texture(Gdx.files.internal("data/walker/less-heads.png"));
 		u_90_frames 	= TextureRegion.split(heads_texture, hw, hh)[0];
-		//u_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[1];
-		u_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[2];
-		//u_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[3];
-		c_frames 		= TextureRegion.split(heads_texture, hw, hh)[4];
-		//d_36_frames 	= TextureRegion.split(heads_texture, hw, hh)[5];
-		d_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[6];
-		//d_72_frames 	= TextureRegion.split(heads_texture, hw, hh)[7];
-		d_90_frames 	= TextureRegion.split(heads_texture, hw, hh)[8];
+		u_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[1];
+		c_frames 		= TextureRegion.split(heads_texture, hw, hh)[2];
+		d_54_frames 	= TextureRegion.split(heads_texture, hw, hh)[3];
+		d_90_frames 	= TextureRegion.split(heads_texture, hw, hh)[4];
 		
 		heads_anim    = new Animation(1, c_frames);
 		
@@ -92,6 +92,8 @@ public class Player {
 		//batch.draw(frame, head_x, head_y, 8, 8);
 		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);
 		
+		// WEAPON
+		gun.tick(delta, batch);
 	}
 	
 	void get_angle(){
@@ -99,15 +101,15 @@ public class Player {
 		mouse.set(Gdx.input.getX(),768 - Gdx.input.getY());
 		double rad = Math.atan2(mouse.x - head_x, head_y - mouse.y);
 		double deg = Math.toDegrees(rad);
-		//System.out.println(deg);
+
 		if (deg > 72 && deg < 108){ // centre
 			heads_anim    = new Animation(1, c_frames);
 			if (deg < 84){
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 96){
-				head_frame = heads_anim.getKeyFrame(2, false);
+				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
-				head_frame = heads_anim.getKeyFrame(4, false);
+				head_frame = heads_anim.getKeyFrame(2, false);
 			}
 			
 		}else if(deg > 36 && deg < 72){ // down 1
@@ -115,9 +117,9 @@ public class Player {
 			if (deg < 48){
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 60){
-				head_frame = heads_anim.getKeyFrame(2, false);
+				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
-				head_frame = heads_anim.getKeyFrame(4, false);
+				head_frame = heads_anim.getKeyFrame(2, false);
 			}
 			
 		}else if(deg > 0 && deg < 36 ){ // down 2
@@ -125,9 +127,9 @@ public class Player {
 			if (deg < 12){
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 24){
-				head_frame = heads_anim.getKeyFrame(2, false);
+				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
-				head_frame = heads_anim.getKeyFrame(4, false);
+				head_frame = heads_anim.getKeyFrame(2, false);
 			}
 
 		}else if(deg > 108 && deg < 144){ // up 1
@@ -135,9 +137,9 @@ public class Player {
 			if (deg < 120){
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 132){
-				head_frame = heads_anim.getKeyFrame(2, false);
+				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
-				head_frame = heads_anim.getKeyFrame(4, false);
+				head_frame = heads_anim.getKeyFrame(2, false);
 			}
 			
 		}else if(deg > 144 && deg < 180){ // up 2
@@ -145,9 +147,9 @@ public class Player {
 			if (deg < 156){
 				head_frame = heads_anim.getKeyFrame(0, false);
 			} else if (deg < 168){
-				head_frame = heads_anim.getKeyFrame(2, false);
+				head_frame = heads_anim.getKeyFrame(1, false);
 			} else {
-				head_frame = heads_anim.getKeyFrame(4, false);
+				head_frame = heads_anim.getKeyFrame(2, false);
 			}
 			
 		// NEGATIVES
@@ -158,19 +160,19 @@ public class Player {
 		
 		}else if(deg > -72 && deg < -36){ // DOWN 1
 			heads_anim    = new Animation(1, d_54_frames);
-			head_frame = heads_anim.getKeyFrame(8, false);
+			head_frame = heads_anim.getKeyFrame(3, false);
 		
 		}else if(deg > -108 && deg < -72){ // CENTRE
 			heads_anim    = new Animation(1, c_frames);
-			head_frame = heads_anim.getKeyFrame(8, false);
+			head_frame = heads_anim.getKeyFrame(3, false);
 			
 		}else if(deg > -144 && deg < -108){ // UP 1
 			heads_anim    = new Animation(1, u_54_frames);
-			head_frame = heads_anim.getKeyFrame(8, false);
+			head_frame = heads_anim.getKeyFrame(3, false);
 			
 		}else if(deg > -180 && deg < -144){ // UP 1
 			heads_anim    = new Animation(1, u_90_frames);
-			head_frame = heads_anim.getKeyFrame(8, false);
+			head_frame = heads_anim.getKeyFrame(3, false);
 		}
 		
 	}
