@@ -1,7 +1,8 @@
 package careless.walker;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bullet {
+public class Bullet extends Entity {
 	private float     startX = 0;
 	private float     startY = 0;
 	public float      destX = 0;
@@ -25,6 +26,7 @@ public class Bullet {
 		this.duration       = 0;
 		this.location.set(startX, startY);
 		recalculateVector(destX, destY);
+		this.hitbox = new Rectangle(startX, startY,ammo_width,ammo_height);
 	}
 
 	// Calculates a new vector based on the input destination X and Y
@@ -43,6 +45,7 @@ public class Bullet {
 		location.x += dx;
 		location.y += dy;
 		duration += 1;
+		hitbox.set(location.x, location.y,ammo_width,ammo_height);
 	}
 	
 	

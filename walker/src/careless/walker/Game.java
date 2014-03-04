@@ -49,6 +49,12 @@ public class Game {
 				
 		// WEAPON
 		bot.gun.tick(delta, gc);
+		
+		for (Bullet b:bot.gun.bulletList){
+			if (b.hitbox.overlaps(man.hitbox)){
+				man.die();
+			}
+		}
 	}
 	
 	public boolean in_shoot_area(){
@@ -83,9 +89,7 @@ public class Game {
 		} else {
 			delta = 0;
 		}
-		
-		
-		
+				
 		bot.tick(delta, batch);
 	}
 	

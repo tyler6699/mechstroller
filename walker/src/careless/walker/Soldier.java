@@ -82,9 +82,9 @@ public class Soldier extends Entity{
 		}else if(run_left) {
 			frame = anim_run_left.getKeyFrame(tick, true);
 		}else if(die_right) {
-			frame = anim_die_right.getKeyFrame(tick, true);
+			frame = anim_die_right.getKeyFrame(tick, false);
 		}else if(die_left) {
-			frame = anim_die_left.getKeyFrame(tick, true);
+			frame = anim_die_left.getKeyFrame(tick, false);
 		}else if(rifle_right) {
 			frame = anim_rifle_right.getKeyFrame(tick, true);
 		}else if(rifle_left) {
@@ -95,5 +95,22 @@ public class Soldier extends Entity{
 			frame = anim_motar_left.getKeyFrame(tick, true);
 		}
 		batch.draw(frame, x, y, w, h);
+	}
+
+	public void die() {
+		reset();
+		tick = 0;
+		die_left = true;		
+	}
+	
+	private void reset(){
+		run_right 	= false;
+		run_left 	= false;
+		die_right 	= false;
+		die_left 	= false;
+		rifle_right = false;
+		rifle_left  = false;
+		motar_right = false;
+		motar_left	= false;
 	}
 }
