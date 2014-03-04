@@ -38,6 +38,5 @@ public class Rumble {
 			gc.camera.position.x = hero.x;
 			gc.camera.position.y = hero.y;
 	    }
-	}
-	   
+	} 
 }

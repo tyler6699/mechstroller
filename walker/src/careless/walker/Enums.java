@@ -7,5 +7,10 @@ public class Enums {
 		RIFLE;
 	}
 	
-
+	public enum TYPE {
+		BOT,
+		SOLDIER,
+		NULL;
+	}
+	
 }

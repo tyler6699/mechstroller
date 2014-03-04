@@ -49,9 +49,6 @@ public class GameController extends InputAdapter implements InputProcessor {
 	public GameController(OrthographicCamera camera){
 		this.camera     = camera;
 		this.rumble = new Rumble(); // Used for Screen Shake
-		
-	
-		
 		this.mouse_screen_click_at = new Vector2();
 		this.mouse_map_click_at    = new Vector2();
 		//this.click_screen_area     = new Rectanle();

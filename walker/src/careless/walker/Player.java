@@ -1,5 +1,7 @@
 package careless.walker;
 
+import careless.walker.Enums.TYPE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -8,16 +10,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Player {
+public class Player extends Entity {
 	public float tick;
-	public float x;
-	public float y;
 	public float head_x;
 	public float head_y;
 	float x_mod=0;
 	float y_mod=0;
 	int scale;
 	float anim_speed;
+	float delta;
 	
 	public Texture 			legs_texture;
 	public TextureRegion[] 	leg_frames;
@@ -40,18 +41,21 @@ public class Player {
 	
 	public Texture player_alive;
 	public Texture player_hit;
-	public float height;
-	public float width;
 	public Rectangle hitbox;
 	public Weapon gun;
 	
 	public Player(Device device){
+		super();
+		
+		// Type of entity
+		type = TYPE.BOT;
+		
 		// WEAPON
 		gun = new Weapon(5,1);
 		anim_speed = .03f;
 		scale = 1;
-		width = device.w_scale * (63*scale);
-		height = device.h_scale * (63*scale);
+		w = device.w_scale * (63*scale);
+		h = device.h_scale * (63*scale);
 		tick = 16*anim_speed;
 		legs_texture = new Texture(Gdx.files.internal("data/walker/legs.png"));
 		leg_frames 	 = TextureRegion.split(legs_texture, 63, 63)[0];
@@ -72,10 +76,27 @@ public class Player {
 		
 		head_x = x + 60 ;
 		head_y = y + 45;
-		hitbox = new Rectangle(x, y, width, height);
+		hitbox = new Rectangle(x, y, w, h);
 	}
 	
-	public void tick(float delta, SpriteBatch batch) {
+	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
+		// MOVE BOT - Should be in logic
+		if (gc.move_left){
+			game.last_move_forward = false;
+			x -= 4f;	
+		} else if (gc.move_right){
+			game.last_move_forward = true;
+			x += 4f;	
+			delta -= 2*delta;
+		} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
+			x += 4f;	
+			delta -= 2*delta;
+		} else if (!game.last_move_forward && frameNumber != 15 && frameNumber != 6){
+			x -= 4f;	
+		} else {
+			delta = 0;
+		}
+		
 		tick += delta;
 		tick = tick > 0 ? tick : 16*anim_speed;
 		
@@ -91,7 +112,7 @@ public class Player {
 		get_angle();
 		frame = legs_anim.getKeyFrame(tick, true);
 		
-		batch.draw(frame, x, y, width, height);
+		batch.draw(frame, x, y, w, h);
 		//batch.draw(frame, head_x, head_y, 8, 8);
 		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);
 	}
@@ -224,7 +245,5 @@ public class Player {
 		} else if (frameNumber == 0){
 			x_mod = 5;
 		}
-		
 	}
-	
 }

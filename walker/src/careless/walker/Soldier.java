@@ -1,6 +1,7 @@
 package careless.walker;
 
 import careless.walker.Enums.MANTYPE;
+import careless.walker.Enums.TYPE;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Soldier extends Entity{
-	public MANTYPE type;
 	public Texture actions;
 	public TextureRegion frame;
 	public Animation anim, anim2;
@@ -44,17 +44,16 @@ public class Soldier extends Entity{
 	
 	public Soldier(MANTYPE type, Device device){
 		super();
-		this.type = type;
+		this.type = TYPE.SOLDIER;
 		w=34;
 		h=28;
 		alive = true;
-		// SET RANDOM POSITIONS
 		
+		// SET RANDOM POSITIONS
 		x = device.w + device.random_int(0,50);
 		dest_x = device.random_int(0,device.w-30);
 		y = device.random_int(0,200);
 		run_left = true;
-		
 		// *******************
 		
 		hitbox = new Rectangle(x, y, w, h);
@@ -79,7 +78,7 @@ public class Soldier extends Entity{
 		anim_motar_left  = new Animation(0.1f, motar_left_t);
 	}
 	
-	public void tick(float delta, SpriteBatch batch) {
+	public void tick(float delta, SpriteBatch batch, Player bot) {
 		hitbox.set(x, y, w, h);
 		tick += delta;
 				
@@ -106,9 +105,25 @@ public class Soldier extends Entity{
 		}else { //motar_left
 			frame = anim_motar_left.getKeyFrame(tick, true);
 		}
+		
+		check_collisions(bot);
+		
 		batch.draw(frame, x, y, w, h);
 	}
 
+	private void check_collisions(Player bot){
+		if (alive){
+			//all_dead = false;
+			for (Bullet b: bot.gun.bulletList){
+				if(b.hitbox.overlaps(hitbox)){
+					die();
+					bot.gun.bulletList.remove(b);
+					break;
+				}
+			}
+		}
+	}
+	
 	public void die() {
 		reset();
 		alive = false;

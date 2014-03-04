@@ -48,5 +48,4 @@ public class Bullet extends Entity {
 		hitbox.set(location.x, location.y,ammo_width,ammo_height);
 	}
 	
-	
 }

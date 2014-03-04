@@ -56,7 +56,6 @@ public class Weapon {
 				setLast_shot_counter((float) this.getLast_shot_counter() + 1);
 			}
 		}
-			
 	}
 	
 	public boolean isReady_to_fire() {

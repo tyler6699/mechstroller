@@ -1,53 +1,38 @@
 package careless.walker;
 
 import java.util.ArrayList;
-
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
+import java.util.Iterator;
 import careless.walker.Enums.MANTYPE;
+import careless.walker.Enums.TYPE;
 
 public class Wave {
-	
-	public ArrayList<Soldier> soldiers;
 	private Soldier soldier;
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
 	
-	public Wave(Device device){
+	public Wave(Device device, ArrayList<Entity> entities){
 		this.device = device;
-		soldiers = new ArrayList<Soldier>();
-		add_soldiers();
+		add_soldiers(entities);
 	}
 	
-	private void add_soldiers() {
+	private void add_soldiers(ArrayList<Entity> entities) {
 		for (int i = 0; i < 10; i++){
 			soldier = new Soldier(MANTYPE.RIFLE, device);
-			soldiers.add(soldier);	
+			entities.add(soldier);	
 		}
     }
 
-	public void tick(float delta, SpriteBatch batch, Player bot){
-		all_dead = true;
-		
-		for (Soldier soldier:soldiers){
-			if (soldier.alive){
-				all_dead = false;
-				for (Bullet b: bot.gun.bulletList){
-					if(b.hitbox.overlaps(soldier.hitbox)){
-						soldier.die();
-						bot.gun.bulletList.remove(b);
-						break;
-					}
-				}
-			}
-			
-			// DRAW
-			soldier.tick(delta, batch);
-		}
-		
+	public void tick(ArrayList<Entity> entities){
 		if (all_dead){
-			add_soldiers();
+		    Iterator<Entity> e = entities.iterator();
+		    while(e.hasNext()){
+		    	Entity entity = e.next();
+		    	if (entity.type == TYPE.SOLDIER){
+					e.remove();
+				}
+		    }
+			add_soldiers(entities);
 		}
 	}
 }
