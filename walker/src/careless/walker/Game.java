@@ -1,5 +1,7 @@
 package careless.walker;
 
+import careless.walker.Enums.MANTYPE;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,7 +29,7 @@ public class Game {
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
 		
 		// TEST PUT IN ARRAY
-		man = new Soldier();
+		man = new Soldier(MANTYPE.RIFLE);
 	}
 	
 	public void tick(float delta, GameController gc){		
