@@ -1,7 +1,5 @@
 package careless.walker;
 
-import careless.walker.Enums.MANTYPE;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,25 +9,23 @@ public class Game {
 	Device device;
 	OrthographicCamera camera;
 	Player bot;
+	Wave wave;
 	Texture cursor, temperature, heat;
 	float max;
 	float percent;
 	boolean last_move_forward;
-	Soldier man;
 	
 	public Game(Device device, OrthographicCamera camera){
 		this.device = device;
 		this.camera = camera;
-		bot = new Player(device);	
+		bot = new Player(device);
+		wave = new Wave(device);
 		cursor = new Texture(Gdx.files.internal("data/walker/crosshair.png"));
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
 		max =  temperature.getHeight();
 		Gdx.input.setCursorPosition((int)bot.head_x, (int)bot.head_y);
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
-		
-		// TEST PUT IN ARRAY
-		man = new Soldier(MANTYPE.RIFLE);
 	}
 	
 	public void tick(float delta, GameController gc){		
@@ -49,12 +45,6 @@ public class Game {
 				
 		// WEAPON
 		bot.gun.tick(delta, gc);
-		
-		for (Bullet b:bot.gun.bulletList){
-			if (b.hitbox.overlaps(man.hitbox)){
-				man.die();
-			}
-		}
 	}
 	
 	public boolean in_shoot_area(){
@@ -64,7 +54,10 @@ public class Game {
 	public void tick(float delta, SpriteBatch batch,GameController gc){
 		// WEAPON
 		bot.gun.tick(delta, batch);
-		man.tick(delta, batch);
+		
+		// WAVE OF ENEMIES
+		wave.tick(delta, batch, bot);
+		
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
 		

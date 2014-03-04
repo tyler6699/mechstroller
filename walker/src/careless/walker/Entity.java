@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 public class Entity {
 	public int id;
 	public String name;
-	public float x;
-	public float y;
+	boolean alive;
+	public float x, dest_x;
+	public float y, dest_y;
 	public float w;
 	public float h;
 	public Rectangle hitbox;	

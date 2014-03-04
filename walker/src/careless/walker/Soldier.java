@@ -42,15 +42,21 @@ public class Soldier extends Entity{
 	public boolean motar_right 	= false;
 	public boolean motar_left	= true;
 	
-	public Soldier(MANTYPE type){
+	public Soldier(MANTYPE type, Device device){
 		super();
 		this.type = type;
-		
-		// SET RANDOM POSITIONS
 		w=34;
 		h=28;
-		x = 600;
-		y = 75;
+		alive = true;
+		// SET RANDOM POSITIONS
+		
+		x = device.w + device.random_int(0,50);
+		dest_x = device.random_int(0,device.w-30);
+		y = device.random_int(0,200);
+		run_left = true;
+		
+		// *******************
+		
 		hitbox = new Rectangle(x, y, w, h);
 		actions = new Texture(Gdx.files.internal("data/walker/punk_man_1.png"));;
 		
@@ -81,6 +87,12 @@ public class Soldier extends Entity{
 			frame = anim_run_right.getKeyFrame(tick, true);
 		}else if(run_left) {
 			frame = anim_run_left.getKeyFrame(tick, true);
+			if (x > dest_x){
+				x -= 2.5F;
+			} else {
+				reset();
+				rifle_left = true;
+			}
 		}else if(die_right) {
 			frame = anim_die_right.getKeyFrame(tick, false);
 		}else if(die_left) {
@@ -99,6 +111,7 @@ public class Soldier extends Entity{
 
 	public void die() {
 		reset();
+		alive = false;
 		tick = 0;
 		die_left = true;		
 	}

@@ -31,4 +31,8 @@ public class Device {
 		w_scale = w/v_width;
 		h_scale = h/v_height;
 	}
+	
+	public int random_int(float Min, float Max){
+		return (int) (Min + (int)(Math.random() * ((Max - Min) + 1)));	
+	}
 }
