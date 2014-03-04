@@ -13,6 +13,7 @@ public class Game {
 	float max;
 	float percent;
 	boolean last_move_forward;
+	Soldier man;
 	
 	public Game(Device device, OrthographicCamera camera){
 		this.device = device;
@@ -24,6 +25,9 @@ public class Game {
 		max =  temperature.getHeight();
 		Gdx.input.setCursorPosition((int)bot.head_x, (int)bot.head_y);
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
+		
+		// TEST PUT IN ARRAY
+		man = new Soldier();
 	}
 	
 	public void tick(float delta, GameController gc){		
@@ -52,7 +56,7 @@ public class Game {
 	public void tick(float delta, SpriteBatch batch,GameController gc){
 		// WEAPON
 		bot.gun.tick(delta, batch);
-		
+		man.tick(delta, batch);
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
 		
@@ -73,7 +77,6 @@ public class Game {
 			bot.x += 4f;	
 			delta -= 2*delta;
 		} else if (!last_move_forward && bot.frameNumber != 15 && bot.frameNumber != 6){
-			System.out.println(bot.frameNumber);
 			bot.x -= 4f;	
 		} else {
 			delta = 0;
