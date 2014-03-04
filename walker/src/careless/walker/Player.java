@@ -71,7 +71,7 @@ public class Player extends Entity {
 		
 		heads_anim    = new Animation(1, c_frames);
 		
-		x = 10;//(device.w/2);
+		x = 100;//(device.w/2);
 		y = 150;//(device.h/2);	
 		
 		head_x = x + 60 ;
