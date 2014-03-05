@@ -6,7 +6,9 @@ import careless.walker.Enums.TYPE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Game {
 	Device device;
@@ -37,7 +39,7 @@ public class Game {
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
 		max =  temperature.getHeight();
-		
+				
 		Gdx.input.setCursorPosition((int)bot.head_x, (int)bot.head_y);
 		Gdx.input.setCursorCatched(!Gdx.input.isCursorCatched());
 	}
@@ -64,12 +66,12 @@ public class Game {
 	public boolean in_shoot_area(){
 		return (bot.deg > -180 && bot.deg < -120) || (bot.deg > -60 && bot.deg < 180);
 	}
-	
+
 	public void tick(float delta, SpriteBatch batch,GameController gc){			
 		// HUD
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
-	    
+				
 		percent = (bot.gun.heat / bot.gun.max_heat) * max;
 		percent = percent > max ? max : percent;
 		batch.draw(heat, 10,758-temperature.getHeight(), temperature.getWidth(),percent);

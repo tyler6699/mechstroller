@@ -13,4 +13,9 @@ public class Enums {
 		NULL;
 	}
 	
+	public enum FACING{
+		LEFT,
+		RIGHT;
+	}
+	
 }

@@ -8,7 +8,7 @@ public class Entity implements Comparable<Entity>{
 	public int id;
 	public String name;
 	public TYPE type;
-	boolean alive;
+	boolean alive, dying;
 	public float x, dest_x;
 	public float y, dest_y;
 	public float w;

@@ -10,17 +10,38 @@ public class Wave {
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
+	int wave_no;
+	int rifle_no;
+	int motar_no;
 	
 	public Wave(Device device, ArrayList<Entity> entities){
 		this.device = device;
 		add_soldiers(entities);
+		wave_no = 1;
+		rifle_no = 5;
+		motar_no = rifle_no/2;
+	}
+	
+	public void next_wave(ArrayList<Entity> entities){
+		wave_no ++;
+		add_soldiers(entities);
 	}
 	
 	private void add_soldiers(ArrayList<Entity> entities) {
-		for (int i = 0; i < 10; i++){
+		// RIFLE
+		for (int i = 0; i < (wave_no*rifle_no); i++){
 			soldier = new Soldier(MANTYPE.RIFLE, device);
+			
 			entities.add(soldier);	
 		}
+		
+		// MOTAR
+		for (int i = 0; i < (wave_no*motar_no); i++){
+			soldier = new Soldier(MANTYPE.MOTAR, device);
+			entities.add(soldier);	
+		}
+		
+		System.out.println(rifle_no*wave_no + " " + motar_no*wave_no);
     }
 
 	public void tick(ArrayList<Entity> entities){
@@ -32,7 +53,7 @@ public class Wave {
 					e.remove();
 				}
 		    }
-			add_soldiers(entities);
+			next_wave(entities);
 		}
 	}
 }
