@@ -15,7 +15,7 @@ public class Game {
 	OrthographicCamera camera;
 	Player bot;
 	Wave wave;
-	Texture cursor, temperature, heat;
+	Texture cursor, temperature, heat, background;
 	float max;
 	float percent;
 	boolean last_move_forward;
@@ -34,7 +34,8 @@ public class Game {
 		
 		// WAVE ATTACKS
 		wave = new Wave(device, entities);
-				
+		
+		background = new Texture(Gdx.files.internal("data/walker/view.jpg"));
 		cursor = new Texture(Gdx.files.internal("data/walker/crosshair.png"));
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
@@ -67,7 +68,9 @@ public class Game {
 		return (bot.deg > -180 && bot.deg < -120) || (bot.deg > -60 && bot.deg < 180);
 	}
 
-	public void tick(float delta, SpriteBatch batch,GameController gc){			
+	public void tick(float delta, SpriteBatch batch,GameController gc){		
+		batch.draw(background, 0,0,device.w,device.h);
+		
 		// HUD
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
