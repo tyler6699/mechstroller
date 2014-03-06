@@ -18,7 +18,7 @@ public class Bazooka extends Soldier{
 		w=40;
 		h=40;
 		x 		 = device.w + device.random_int(0,100);
-		dest_x   = device.random_int(device.w/4,device.w-w);
+		dest_x   = device.random_int(device.w/1.5f,device.w-w);
 		y 		 = device.random_int(0,200);
 		run_left = true;
 		direction = FACING.LEFT;
