@@ -7,6 +7,7 @@ import careless.walker.Enums.TYPE;
 
 public class Wave {
 	private Soldier soldier;
+	private RifleMan rifle;
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
@@ -30,18 +31,16 @@ public class Wave {
 	private void add_soldiers(ArrayList<Entity> entities) {
 		// RIFLE
 		for (int i = 0; i < (wave_no*rifle_no); i++){
-			soldier = new Soldier(MANTYPE.RIFLE, device);
+			rifle = new RifleMan(device);
 			
-			entities.add(soldier);	
+			entities.add(rifle);	
 		}
 		
 		// MOTAR
 		for (int i = 0; i < (wave_no*motar_no); i++){
-			soldier = new Soldier(MANTYPE.MOTAR, device);
-			entities.add(soldier);	
+			//soldier = new Soldier(MANTYPE.MOTAR, device);
+			//entities.add(soldier);	
 		}
-		
-		System.out.println(rifle_no*wave_no + " " + motar_no*wave_no);
     }
 
 	public void tick(ArrayList<Entity> entities){

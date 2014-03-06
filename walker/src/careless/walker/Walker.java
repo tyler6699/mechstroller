@@ -20,7 +20,7 @@ public class Walker implements ApplicationListener {
 		device = new Device();
 		camera = new OrthographicCamera(device.w, device.h);
 		camera.position.set(device.w/2, device.h/2, 0);
-						batch = new SpriteBatch();
+		batch = new SpriteBatch();
 		game = new Game(device, camera);
 		gc = new GameController(camera);
 		Gdx.input.setInputProcessor(gc);
@@ -29,7 +29,7 @@ public class Walker implements ApplicationListener {
 	@Override
 	public void render() {		
 		float delta = Gdx.graphics.getDeltaTime();
-		Gdx.gl.glClearColor(3,3,3,0);
+		Gdx.gl.glClearColor(0,0,0,0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		
