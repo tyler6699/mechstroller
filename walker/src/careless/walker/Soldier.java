@@ -45,10 +45,8 @@ public class Soldier extends Entity{
 	public boolean run_left 	= false;
 	public boolean die_right 	= false;
 	public boolean die_left 	= false;
-	public boolean rifle_right 	= false;
-	public boolean rifle_left  	= false;
-	public boolean motar_right 	= false;
-	public boolean motar_left	= true;
+	public boolean shoot_right 	= false;
+	public boolean shoot_left  	= false;
 	
 	public Soldier(MANTYPE type, Device device){
 		super();
@@ -107,13 +105,11 @@ public class Soldier extends Entity{
 		run_left 	= false;
 		die_right 	= false;
 		die_left 	= false;
-		rifle_right = false;
-		rifle_left  = false;
-		motar_right = false;
-		motar_left	= false;
+		shoot_right = false;
+		shoot_left  = false;
 	}
 	
-	private void get_frame(){
+	protected void get_frame(){
 		if (run_right){
 			frame = anim_run_right.getKeyFrame(tick, true);
 		}else if(run_left) {
@@ -123,20 +119,16 @@ public class Soldier extends Entity{
 			} else {
 				reset();
 				tick = 0;
-				rifle_left = true;
+				shoot_left = true;
 			}
 		}else if(die_right) {
 			frame = anim_die_right.getKeyFrame(tick, false);
 		}else if(die_left) {
 			frame = anim_die_left.getKeyFrame(tick, false);
-		}else if(rifle_right) {
+		}else if(shoot_right) {
 			frame = anim_rifle_right.getKeyFrame(tick, true);
-		}else if(rifle_left) {
+		}else if(shoot_left) {
 			frame = anim_rifle_left.getKeyFrame(tick, true);
-		}else if(motar_right) {
-			frame = anim_motar_right.getKeyFrame(tick, true);
-		}else { //motar_left
-			frame = anim_motar_left.getKeyFrame(tick, true);
 		}
 	}
 }

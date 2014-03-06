@@ -11,10 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public class RifleMan extends Soldier{
+public class Bazooka extends Soldier{
 		
-	public RifleMan(Device device){
-		super(MANTYPE.RIFLE, device);
+	public Bazooka(Device device){
+		super(MANTYPE.MOTAR, device);
 		w=40;
 		h=40;
 		x 		 = device.w + device.random_int(0,100);
@@ -24,7 +24,7 @@ public class RifleMan extends Soldier{
 		direction = FACING.LEFT;
 		
 		hitbox = new Rectangle(x, y, w, h);
-		actions = new Texture(Gdx.files.internal("data/walker/red_punk_run.png"));;
+		actions = new Texture(Gdx.files.internal("data/walker/punk_girl.png"));;
 		int s = 40;
 
 		run_left_t 		= TextureRegion.split(actions, s, s)[0];

@@ -8,6 +8,7 @@ import careless.walker.Enums.TYPE;
 public class Wave {
 	private Soldier soldier;
 	private RifleMan rifle;
+	private Bazooka bazooka;
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
@@ -38,8 +39,8 @@ public class Wave {
 		
 		// MOTAR
 		for (int i = 0; i < (wave_no*motar_no); i++){
-			//soldier = new Soldier(MANTYPE.MOTAR, device);
-			//entities.add(soldier);	
+			bazooka = new Bazooka(device);
+			entities.add(bazooka);	
 		}
     }
 
