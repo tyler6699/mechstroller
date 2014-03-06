@@ -14,9 +14,9 @@ import com.badlogic.gdx.math.Rectangle;
 public class Soldier extends Entity{
 	float bleed_time;
 	
-	public Animation rambo_anim;
+	public Animation rambo_anim, rambo_die_anim;
 	public Texture rambo;
-	TextureRegion[] rambo_frames;
+	TextureRegion[] rambo_frames,rambo_die_frames;
 	
 	public Texture actions;
 	public TextureRegion frame;
@@ -45,10 +45,8 @@ public class Soldier extends Entity{
 	public boolean run_left 	= false;
 	public boolean die_right 	= false;
 	public boolean die_left 	= false;
-	public boolean rifle_right 	= false;
-	public boolean rifle_left  	= false;
-	public boolean motar_right 	= false;
-	public boolean motar_left	= true;
+	public boolean shoot_right 	= false;
+	public boolean shoot_left  	= false;
 	
 	public Soldier(MANTYPE type, Device device){
 		super();
@@ -59,44 +57,8 @@ public class Soldier extends Entity{
 		alive = true;
 		dying = false;
 		bleed_time = 0;
-		
-		// SET RANDOM POSITIONS
-		x 		 = device.w + device.random_int(0,100);
-		if (type == MANTYPE.RIFLE){
-			dest_x   = device.random_int(device.w/4,device.w-w);
-		} else {
-			dest_x   = device.random_int(device.w/2,device.w-w);
-		}
-		y 		 = device.random_int(0,200);
-		run_left = true;
-		direction = FACING.LEFT;
-		// *******************
-			
+					
 		hitbox = new Rectangle(x, y, w, h);
-		actions = new Texture(Gdx.files.internal("data/walker/punk_man_1.png"));;
-		
-		run_right_t		= TextureRegion.split(actions, 17, 14)[0];
-		run_left_t 		= TextureRegion.split(actions, 17, 14)[1];
-		die_right_t		= TextureRegion.split(actions, 17, 14)[2];
-		die_left_t 		= TextureRegion.split(actions, 17, 14)[3];
-		rifle_right_t 	= TextureRegion.split(actions, 17, 14)[4];
-		rifle_left_t 	= TextureRegion.split(actions, 17, 14)[5];
-		motar_right_t	= TextureRegion.split(actions, 17, 14)[6];
-		motar_left_t 	= TextureRegion.split(actions, 17, 14)[7];
-		
-		anim_run_right	 = new Animation(0.1f, run_right_t);
-		anim_run_left	 = new Animation(0.1f, run_left_t);
-		anim_die_right	 = new Animation(0.1f, die_right_t);
-		anim_die_left 	 = new Animation(0.1f, die_left_t);
-		anim_rifle_right = new Animation(0.1f, rifle_right_t);
-		anim_rifle_left	 = new Animation(0.1f, rifle_left_t);
-		anim_motar_right = new Animation(0.1f, motar_right_t);
-		anim_motar_left  = new Animation(0.1f, motar_left_t);
-		
-		// New Char
-		rambo = new Texture(Gdx.files.internal("data/walker/neon_run.png"));
-		rambo_frames = TextureRegion.split(rambo, 40, 40)[0];
-		rambo_anim	 = new Animation(0.05f, rambo_frames);
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Player bot) {
@@ -143,35 +105,30 @@ public class Soldier extends Entity{
 		run_left 	= false;
 		die_right 	= false;
 		die_left 	= false;
-		rifle_right = false;
-		rifle_left  = false;
-		motar_right = false;
-		motar_left	= false;
+		shoot_right = false;
+		shoot_left  = false;
 	}
 	
-	private void get_frame(){
+	protected void get_frame(){
 		if (run_right){
 			frame = anim_run_right.getKeyFrame(tick, true);
 		}else if(run_left) {
-			frame = rambo_anim.getKeyFrame(tick, true);
+			frame = anim_run_left.getKeyFrame(tick, true);
 			if (x > dest_x){
 				x -= 2.5F;
 			} else {
 				reset();
-				rifle_left = true;
+				tick = 0;
+				shoot_left = true;
 			}
 		}else if(die_right) {
 			frame = anim_die_right.getKeyFrame(tick, false);
 		}else if(die_left) {
 			frame = anim_die_left.getKeyFrame(tick, false);
-		}else if(rifle_right) {
+		}else if(shoot_right) {
 			frame = anim_rifle_right.getKeyFrame(tick, true);
-		}else if(rifle_left) {
-			frame = rambo_anim.getKeyFrame(0, true);
-		}else if(motar_right) {
-			frame = anim_motar_right.getKeyFrame(tick, true);
-		}else { //motar_left
-			frame = anim_motar_left.getKeyFrame(tick, true);
+		}else if(shoot_left) {
+			frame = anim_rifle_left.getKeyFrame(tick, true);
 		}
 	}
 }
