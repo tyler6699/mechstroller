@@ -2,14 +2,13 @@ package careless.walker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import careless.walker.Enums.MANTYPE;
 import careless.walker.Enums.TYPE;
 
 public class Wave {
-	private Soldier soldier;
 	private RifleMan rifle;
 	private Bazooka bazooka;
 	private Helicopter helicopter;
+	
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
