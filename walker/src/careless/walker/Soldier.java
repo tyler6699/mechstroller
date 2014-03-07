@@ -59,23 +59,7 @@ public class Soldier extends Entity{
 		hitbox = new Rectangle(x, y, w, h);
 	}
 	
-	public void tick(float delta, SpriteBatch batch, Player bot) {
-		hitbox.set(x, y, w, h);
-		tick += delta;
-		if (dying){
-			if(bleed_time < 70){
-				bleed_time ++;
-			} else {
-				alive = false;
-			}
-		}
-		get_frame();
-		check_collisions(bot);
-		batch.draw(frame, x, y, w, h);
-		batch.draw(frame, x, y, w/2, h/2+50, w, h, h/w, 2, 40*tick, true);
-	}
-
-	private void check_collisions(Player bot){
+	public void check_collisions(Player bot){
 		if (alive && !dying){
 			for (Bullet b: bot.gun.bulletList){
 				if(b.hitbox.overlaps(hitbox)){

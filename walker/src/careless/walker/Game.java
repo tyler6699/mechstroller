@@ -84,7 +84,9 @@ public class Game {
 			if(e.type == TYPE.BOT){
 				bot.tick(delta, batch, this, gc);
 			} else if (e.type == TYPE.SOLDIER){
-				((Soldier) e).tick(delta, batch, bot);
+				//((Soldier) e).tick(delta, batch, bot);
+				e.tick(delta, batch, bot);
+				
 				if (((Soldier) e).alive){
 					wave.all_dead = false;
 				}
