@@ -4,7 +4,8 @@ public class Enums {
 		
 	public enum MANTYPE {
 		MOTAR,
-		RIFLE;
+		RIFLE,
+		HELICOPTER;
 	}
 	
 	public enum TYPE {

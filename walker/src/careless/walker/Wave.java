@@ -9,6 +9,7 @@ public class Wave {
 	private Soldier soldier;
 	private RifleMan rifle;
 	private Bazooka bazooka;
+	private Helicopter helicopter;
 	boolean all_dead = true;
 	boolean reset_wave = false;
 	Device device;
@@ -42,6 +43,9 @@ public class Wave {
 			bazooka = new Bazooka(device);
 			entities.add(bazooka);	
 		}
+		
+		helicopter = new Helicopter(device);
+		entities.add(helicopter);
     }
 
 	public void tick(ArrayList<Entity> entities){
