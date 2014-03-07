@@ -74,6 +74,7 @@ public class Soldier extends Entity{
 		get_frame();
 		check_collisions(bot);
 		batch.draw(frame, x, y, w, h);
+		batch.draw(frame, x, y, w/2, h/2+50, w, h, h/w, 2, 40*tick, true);
 	}
 
 	private void check_collisions(Player bot){
