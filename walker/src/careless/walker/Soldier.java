@@ -83,7 +83,7 @@ public class Soldier extends Entity{
 			
 	}
 	
-	private void reset(){
+	protected void reset(){
 		run_right 	= false;
 		run_left 	= false;
 		die_right 	= false;

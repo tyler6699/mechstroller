@@ -20,9 +20,10 @@ public class Entity implements Comparable<Entity>{
 	public float alt_w;
 	public float alt_h;
 	public float tick;
+	public boolean liveable;
 	
 	public Entity (){
-		
+		liveable = true;
 	}
 
 	public int compareTo(Entity entity) {
