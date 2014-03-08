@@ -9,7 +9,7 @@ public class Entity implements Comparable<Entity>{
 	public int id;
 	public String name;
 	public TYPE type;
-	boolean alive, dying;
+	boolean alive, dying, falling;
 	public float x, dest_x;
 	public float y, dest_y;
 	public float w;
@@ -21,9 +21,13 @@ public class Entity implements Comparable<Entity>{
 	public float alt_h;
 	public float tick;
 	public boolean liveable;
+	public float vehicle_x;
+	public float vehicle_y;
+	
 	
 	public Entity (){
 		liveable = true;
+		falling = false;
 	}
 
 	public int compareTo(Entity entity) {

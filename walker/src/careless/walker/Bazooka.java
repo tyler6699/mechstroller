@@ -43,9 +43,34 @@ public class Bazooka extends Soldier{
 				alive = false;
 			}
 		}
+		logic();
 		get_frame();
 		check_collisions(bot);
 		batch.draw(frame, x, y, w, h);
 		//batch.draw(frame, x, y, w/2, h/2+50, w, h, h/w, 2, 40*tick, true);
+	}
+	
+	protected void logic(){
+		if (in_vehicle){
+			
+		} else if (run_right){
+			
+		}else if(run_left) {
+			if (x > dest_x){
+				x -= 2.5F;
+			} else {
+				reset();
+				tick = 0;
+				shoot_left = true;
+			}
+		}else if(die_right) {
+			
+		}else if(die_left) {
+		
+		}else if(shoot_right) {
+			
+		}else if(shoot_left) {
+		
+		}
 	}
 }

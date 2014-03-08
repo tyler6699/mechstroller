@@ -18,9 +18,9 @@ public class RifleMan extends Soldier{
 		x 		 = device.w + device.random_int(0,100);
 		dest_x   = device.random_int(device.w/4,device.w-w);
 		y 		 = device.random_int(0,200);
+		dest_y = y;
 		run_left = true;
 		direction = FACING.LEFT;
-		
 		hitbox = new Rectangle(x, y, w, h);
 		actions = new Texture(Gdx.files.internal("data/walker/red_punk_run.png"));;
 		int s = 40;
@@ -43,10 +43,54 @@ public class RifleMan extends Soldier{
 				alive = false;
 			}
 		}
+		logic();
 		get_frame();
 		check_collisions(bot);
-		batch.draw(frame, x, y, w, h);
-		//batch.draw(frame, x, y, w/2, h/2+50, w, h, h/w, 2, 40*tick, true);
+		batch.draw(frame, x, y, w, h);		
+	}
+	
+	protected void logic(){
+		
+		if (in_vehicle){
+			x = vehicle.vehicle_x;
+			y = vehicle.vehicle_y;
+			tick = 0;
+			
+			if (x < dest_x + 100 ){
+				in_vehicle = false;
+				falling = true;
+			}
+		} else if (falling) {
+			// PARACHUTE
+			if (vehicle != null){
+				if (y > dest_y){
+					y -= 4;
+				} else {
+					//run_left = true;
+					falling = false;
+				}
+			}
+		} else if (run_right && alive){
+
+		} else if(run_left && alive) {
+			if (x > dest_x){
+				x -= 2.5F;
+			} else {
+				reset();
+				tick = 0;
+				shoot_left = true;
+			}			
+		}else if(die_right) {
+
+		}else if(die_left) {
+
+		}else if(shoot_right && alive) {
+			
+		}else if(shoot_left && alive) {
+			
+		} else {
+			reset();			
+		}
 	}
 		
 }

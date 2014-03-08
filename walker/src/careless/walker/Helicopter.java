@@ -36,17 +36,22 @@ public class Helicopter extends Soldier{
 		
 		hitbox = new Rectangle(x, y, w, h);
 
-		run_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[0];
+		run_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[1];
+		run_right_t 		= TextureRegion.split(actions, (int) w, (int) h)[0];
 		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[0];
-		rifle_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
-		anim_run_left	 = new Animation(1f, run_left_t);
-		anim_die_left 	 = new Animation(1f, die_left_t);
-		anim_rifle_left	 = new Animation(1f, rifle_left_t);
+		rifle_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[1];
+		rifle_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
+		anim_run_left	 = new Animation(.01f, run_left_t);
+		anim_run_right	 = new Animation(.01f, run_right_t);
+		anim_die_left 	 = new Animation(.01f, die_left_t);
+		anim_rifle_left	 = new Animation(.01f, rifle_left_t);
+		anim_rifle_right = new Animation(.01f, rifle_right_t);
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Player bot) {
 		hitbox.set(x, y, w/2, h);
 		tick += delta;
+		
 		if (dying){
 			if(bleed_time < 70){
 				bleed_time ++;
@@ -54,29 +59,20 @@ public class Helicopter extends Soldier{
 				alive = false;
 			}
 		}
+		
+		logic();
 		get_frame();
-		check_collisions(bot);
-		//batch.draw(frame, x, y, w, h);
-		//frame.flip(false, true);
-		blade_frame = blade_anim.getKeyFrame(tick, true);
-		
-		//batch.draw(blade_frame, x+15, y+67, 0,0, 122, 21, 2, 1, 90, true);
-		
-		batch.draw(frame, x, y, w, h);	
-		
-		batch.draw(frame, x, y-200, w/2, h/2, w, h, .55f, 1.95f, t, true);
-		
+		check_collisions(bot);		
+		batch.draw(frame, x, y, w/2, h/2, w, h, .49f, 1.94f, t, true);
 	}	
-	
 	float t = 120;
 	boolean up = true;
 	float hover_time = 0;
 	
-	protected void get_frame(){
+	protected void logic(){
 		if (run_right){
-			frame = anim_run_left.getKeyFrame(0, true);
-		}else if(run_left) {
-			frame = anim_run_left.getKeyFrame(1, true);
+		
+		} else if(run_left) {
 			if (x > dest_x){
 				x -= 4.5F;
 				if(t > 70){
@@ -88,22 +84,20 @@ public class Helicopter extends Soldier{
 				shoot_left = true;
 			}
 		}else if(die_right) {
-			frame = anim_die_right.getKeyFrame(tick, false);
+			
 		}else if(die_left) {
-			frame = anim_die_left.getKeyFrame(tick, false);
+		
 		}else if(shoot_right) {
-			frame = anim_rifle_right.getKeyFrame(0, true);
+			
 		}else if(shoot_left) {
 			hover_time ++;
 			if(t > 85 && up){
-				System.out.println("up: " + t);
 				t-=.05f;
 			} else {
 				up = false;
 			}
 			
 			if(t < 93 && !up){
-				System.out.println("down: " + t);
 				t+=.05f;
 			} else {
 				up = true;
@@ -112,9 +106,25 @@ public class Helicopter extends Soldier{
 			if(hover_time > 100){
 				x -= 4.5F;
 			}
-			
-			
-			frame = anim_rifle_left.getKeyFrame(1, true);
+		}
+		
+		vehicle_x = x + 40;
+		vehicle_y = y + 25;
+	}
+	
+	protected void get_frame(){
+		if (run_right){
+			frame = anim_run_right.getKeyFrame(tick, true);
+		}else if(run_left) {
+			frame = anim_run_left.getKeyFrame(tick, true);
+		}else if(die_right) {
+			frame = anim_die_right.getKeyFrame(tick, false);
+		}else if(die_left) {
+			frame = anim_die_left.getKeyFrame(tick, false);
+		}else if(shoot_right) {
+			frame = anim_rifle_right.getKeyFrame(tick, true);
+		}else if(shoot_left) {			
+			frame = anim_rifle_left.getKeyFrame(tick, true);
 		}
 	}
 }

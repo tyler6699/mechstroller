@@ -16,6 +16,8 @@ public class Soldier extends Entity{
 	public Texture rambo;
 	TextureRegion[] rambo_frames,rambo_die_frames;
 	
+	public Entity vehicle;
+	
 	public Texture actions;
 	public TextureRegion frame;
 	public Animation anim, anim2;
@@ -45,6 +47,7 @@ public class Soldier extends Entity{
 	public boolean die_left 	= false;
 	public boolean shoot_right 	= false;
 	public boolean shoot_left  	= false;
+	public boolean in_vehicle 	= false;
 	
 	public Soldier(MANTYPE type, Device device){
 		super();
@@ -90,6 +93,7 @@ public class Soldier extends Entity{
 		die_left 	= false;
 		shoot_right = false;
 		shoot_left  = false;
+		in_vehicle 	= false;
 	}
 	
 	protected void get_frame(){
@@ -97,13 +101,6 @@ public class Soldier extends Entity{
 			frame = anim_run_right.getKeyFrame(tick, true);
 		}else if(run_left) {
 			frame = anim_run_left.getKeyFrame(tick, true);
-			if (x > dest_x){
-				x -= 2.5F;
-			} else {
-				reset();
-				tick = 0;
-				shoot_left = true;
-			}
 		}else if(die_right) {
 			frame = anim_die_right.getKeyFrame(tick, false);
 		}else if(die_left) {

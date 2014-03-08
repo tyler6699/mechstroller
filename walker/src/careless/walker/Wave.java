@@ -20,7 +20,7 @@ public class Wave {
 		this.device = device;
 		add_soldiers(entities);
 		wave_no = 1;
-		rifle_no = 5;
+		rifle_no = 3;
 		motar_no = rifle_no/2;
 	}
 	
@@ -42,9 +42,18 @@ public class Wave {
 			bazooka = new Bazooka(device);
 			entities.add(bazooka);	
 		}
-		
+				
 		helicopter = new Helicopter(device);
 		entities.add(helicopter);
+		
+		for (int i = 0; i < (wave_no*rifle_no); i++){
+			rifle = new RifleMan(device);
+			rifle.vehicle = helicopter;
+			rifle.x = helicopter.x;
+			rifle.y = helicopter.y;
+			rifle.in_vehicle = true;
+			entities.add(rifle);	
+		}
     }
 
 	public void tick(ArrayList<Entity> entities){
