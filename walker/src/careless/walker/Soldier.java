@@ -65,19 +65,22 @@ public class Soldier extends Entity{
 		if (alive && !dying){
 			for (Bullet b: bot.gun.bulletList){
 				if(b.hitbox.overlaps(hitbox)){
-					die(entities);
+					hp --;
+					if (hp <0){
+					   die(entities);
+					}
 					bot.gun.bulletList.remove(b);
 					break;
 				}
 			}
-			
-			if (gun != null && gun.bulletList != null){
-				for (Bullet b: gun.bulletList){
-					if(b.hitbox.overlaps(bot.hitbox)){
-						bot.hp -= b.damage;
-						gun.bulletList.remove(b);
-						break;
-					}
+		}
+		
+		if (gun != null && gun.bulletList != null){
+			for (Bullet b: gun.bulletList){
+				if(b.hitbox.overlaps(bot.hitbox)){
+					bot.hp -= b.damage;
+					gun.bulletList.remove(b);
+					break;
 				}
 			}
 		}

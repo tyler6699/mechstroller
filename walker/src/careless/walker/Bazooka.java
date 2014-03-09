@@ -15,6 +15,7 @@ public class Bazooka extends Soldier{
 		
 	public Bazooka(Device device){
 		super(MANTYPE.MOTAR, device);
+		hp = 5;
 		w=40;
 		h=40;
 		x 		 = device.w + device.random_int(0,100);
@@ -41,6 +42,7 @@ public class Bazooka extends Soldier{
 		
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
+		
 		tick += delta;
 		if (dying){
 			if(bleed_time < 70){

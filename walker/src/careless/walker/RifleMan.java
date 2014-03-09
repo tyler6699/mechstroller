@@ -15,6 +15,7 @@ public class RifleMan extends Soldier{
 		
 	public RifleMan(Device device){
 		super(MANTYPE.RIFLE, device);
+		hp = 1;
 		w=40;
 		h=40;
 		x 		 = device.w + device.random_int(0,100);

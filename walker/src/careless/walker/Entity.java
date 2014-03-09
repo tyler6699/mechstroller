@@ -25,7 +25,7 @@ public class Entity implements Comparable<Entity>{
 	public boolean liveable;
 	public float vehicle_x;
 	public float vehicle_y;
-	
+	int hp;
 	
 	public Entity (){
 		liveable = true;

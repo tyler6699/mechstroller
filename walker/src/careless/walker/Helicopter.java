@@ -19,7 +19,8 @@ public class Helicopter extends Soldier{
 	
 	public Helicopter(Device device){
 		super(MANTYPE.HELICOPTER, device);
-		actions = new Texture(Gdx.files.internal("data/walker/helicopter.png"));
+		hp = 20;
+		
 		w = 180;
 		h = 95;
 		x 		 = device.w + device.random_int(0,100);
@@ -31,7 +32,7 @@ public class Helicopter extends Soldier{
 		run_left = true;
 		
 		direction = FACING.LEFT;
-		
+		actions = new Texture(Gdx.files.internal("data/walker/helicopter.png"));
 		blades = new Texture(Gdx.files.internal("data/walker/helicopter-blades.png"));
 		blade_frames = TextureRegion.split(blades, 122, 21)[0];
 		blade_anim = new Animation(0.01f, blade_frames);
