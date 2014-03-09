@@ -1,5 +1,7 @@
 package careless.walker;
 
+import java.util.ArrayList;
+
 import careless.walker.Enums.TYPE;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,8 +46,8 @@ public class Entity implements Comparable<Entity>{
 		return (temp_y < compare_y ) ? -1: (temp_y > compare_y) ? 1:0 ;
 	}
 
-	public void tick(float delta, SpriteBatch batch, Player bot) {
-		
-	}
+	public void tick(float delta, SpriteBatch batch, Player bot) {}
+	
+	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {}
 
 }

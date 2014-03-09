@@ -87,7 +87,7 @@ public class Game {
 				bot.tick(delta, batch, this, gc);
 			} else if (e.type == TYPE.SOLDIER){
 				//((Soldier) e).tick(delta, batch, bot);
-				e.tick(delta, batch, bot);
+				e.tick(delta, batch, bot, entities);
 				
 				if (e.alive && e.liveable){
 					wave.all_dead = false;

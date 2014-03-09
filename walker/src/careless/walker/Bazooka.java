@@ -1,5 +1,7 @@
 package careless.walker;
 
+import java.util.ArrayList;
+
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
 import com.badlogic.gdx.Gdx;
@@ -37,7 +39,7 @@ public class Bazooka extends Soldier{
 		anim_shoot_right = new Animation(0.1f, shoot_right_t);
 	}
 		
-	public void tick(float delta, SpriteBatch batch, Player bot) {
+	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
 		tick += delta;
 		if (dying){
@@ -49,7 +51,7 @@ public class Bazooka extends Soldier{
 		}
 		logic(bot, delta);
 		get_frame();
-		check_collisions(bot);
+		check_collisions(bot, entities);
 		batch.draw(frame, x, y, w, h);
 		gun.tick(delta, batch);
 	}

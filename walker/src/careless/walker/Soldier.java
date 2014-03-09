@@ -1,5 +1,7 @@
 package careless.walker;
 
+import java.util.ArrayList;
+
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
 import careless.walker.Enums.TYPE;
@@ -59,11 +61,11 @@ public class Soldier extends Entity{
 		hitbox = new Rectangle(x, y, w, h);
 	}
 	
-	public void check_collisions(Player bot){
+	public void check_collisions(Player bot, ArrayList<Entity> entities){
 		if (alive && !dying){
 			for (Bullet b: bot.gun.bulletList){
 				if(b.hitbox.overlaps(hitbox)){
-					die();
+					die(entities);
 					bot.gun.bulletList.remove(b);
 					break;
 				}
@@ -72,7 +74,7 @@ public class Soldier extends Entity{
 			if (gun != null && gun.bulletList != null){
 				for (Bullet b: gun.bulletList){
 					if(b.hitbox.overlaps(bot.hitbox)){
-						System.out.println(gun.damage);
+						bot.hp -= b.damage;
 						gun.bulletList.remove(b);
 						break;
 					}
@@ -117,7 +119,30 @@ public class Soldier extends Entity{
 		}
 	}
 	
-	public void die() {
+	public void die(ArrayList<Entity> entities) {
+		if (weapon == MANTYPE.HELICOPTER){
+			for (Entity e: entities){
+				if(e.type == TYPE.SOLDIER){
+					if (((Soldier)e).vehicle == this){
+						((Soldier)e).falling = true;
+						((Soldier)e).die();
+					}
+				}
+			}
+		}
+		
+		reset();
+		dying = true;
+		tick = 0;
+		if (direction == FACING.LEFT){
+			die_left = true;	
+		} else {
+			die_right = true;
+		}
+			
+	}
+	
+	public void die() {		
 		reset();
 		dying = true;
 		tick = 0;

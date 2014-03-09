@@ -20,6 +20,10 @@ public class Player extends Entity {
 	float anim_speed;
 	float delta;
 	
+	// HP
+	float hp;
+	float max_hp;
+	
 	public Texture 			legs_texture;
 	public TextureRegion[] 	leg_frames;
 	public Animation 		legs_anim;
@@ -50,8 +54,11 @@ public class Player extends Entity {
 		// Type of entity
 		type = TYPE.BOT;
 		
+		// HP
+		max_hp = 100;
+		hp = max_hp;
 		// WEAPON
-		gun = new Weapon(5,1,1,20,30, 2);
+		gun = new Weapon(5,1,1,20,30,2);
 		anim_speed = .03f;
 		scale = 1;
 		w = device.w_scale * (63*scale);
@@ -80,6 +87,7 @@ public class Player extends Entity {
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
+		//System.out.println(hp);
 		// MOVE BOT - Should be in logic
 		if (gc.move_left){
 			game.last_move_forward = false;

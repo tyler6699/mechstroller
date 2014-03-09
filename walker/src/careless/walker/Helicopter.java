@@ -1,5 +1,7 @@
 package careless.walker;
 
+import java.util.ArrayList;
+
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
 import com.badlogic.gdx.Gdx;
@@ -38,19 +40,19 @@ public class Helicopter extends Soldier{
 
 		run_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[1];
 		run_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
-		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[1];
-		//die_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[4];
+		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[3];
+		die_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[2];
 		shoot_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[1];
 		shoot_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
 		anim_run_left	 = new Animation(.01f, run_left_t);
 		anim_run_right	 = new Animation(.01f, run_right_t);
-		anim_die_left 	 = new Animation(.01f, die_left_t);
-		anim_die_right 	 = new Animation(.01f, die_left_t);
+		anim_die_left 	 = new Animation(.1f, die_left_t);
+		anim_die_right 	 = new Animation(.1f, die_left_t);
 		anim_shoot_left	 = new Animation(.01f, shoot_left_t);
 		anim_shoot_right = new Animation(.01f, shoot_right_t);
 	}
 	
-	public void tick(float delta, SpriteBatch batch, Player bot) {
+	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w/2, h);
 		tick += delta;
 		
@@ -64,7 +66,7 @@ public class Helicopter extends Soldier{
 		
 		logic();
 		get_frame();
-		check_collisions(bot);		
+		check_collisions(bot, entities);		
 		batch.draw(frame, x, y, w/2, h/2, w, h, .49f, 1.94f, t, true);
 	}	
 	float t = 120;
@@ -86,9 +88,14 @@ public class Helicopter extends Soldier{
 				shoot_left = true;
 			}
 		}else if(die_right) {
+			if (y > 50){
+				y -= 5;	
+			}
 			
 		}else if(die_left) {
-		
+			if (y > 50){
+				y -= 5;	
+			}
 		}else if(shoot_right) {
 			
 		}else if(shoot_left) {
