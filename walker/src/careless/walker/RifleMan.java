@@ -24,13 +24,19 @@ public class RifleMan extends Soldier{
 		hitbox = new Rectangle(x, y, w, h);
 		actions = new Texture(Gdx.files.internal("data/walker/red_punk_run.png"));;
 		int s = 40;
-
+		
+		gun = new Weapon(100,1, 1, 10, 25, 2);
+		
 		run_left_t 		= TextureRegion.split(actions, s, s)[0];
 		die_left_t 		= TextureRegion.split(actions, s, s)[1];
-		rifle_left_t 	= TextureRegion.split(actions, s, s)[2];
+		shoot_left_t 	= TextureRegion.split(actions, s, s)[2];
+		shoot_right_t 	= TextureRegion.split(actions, s, s)[3];
+		die_right_t 	= TextureRegion.split(actions, s, s)[4];
 		anim_run_left	 = new Animation(0.1f, run_left_t);
 		anim_die_left 	 = new Animation(0.1f, die_left_t);
-		anim_rifle_left	 = new Animation(0.1f, rifle_left_t);
+		anim_die_right 	 = new Animation(0.1f, die_right_t);
+		anim_shoot_left	 = new Animation(0.1f, shoot_left_t);
+		anim_shoot_right = new Animation(0.1f, shoot_right_t);
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Player bot) {
@@ -43,14 +49,15 @@ public class RifleMan extends Soldier{
 				alive = false;
 			}
 		}
-		logic();
+		logic(bot, delta);
 		get_frame();
 		check_collisions(bot);
 		batch.draw(frame, x, y, w, h);		
+		gun.tick(delta, batch);
+		//gun.tick(bot);
 	}
 	
-	protected void logic(){
-		
+	protected void logic(Player bot, float delta){
 		if (in_vehicle){
 			x = vehicle.vehicle_x;
 			y = vehicle.vehicle_y;
@@ -66,12 +73,11 @@ public class RifleMan extends Soldier{
 				if (y > dest_y){
 					y -= 4;
 				} else {
-					//run_left = true;
 					falling = false;
 				}
 			}
 		} else if (run_right && alive){
-
+			check_run_x(bot);
 		} else if(run_left && alive) {
 			if (x > dest_x){
 				x -= 2.5F;
@@ -80,17 +86,22 @@ public class RifleMan extends Soldier{
 				tick = 0;
 				shoot_left = true;
 			}			
+			
+			check_run_x(bot);
 		}else if(die_right) {
 
 		}else if(die_left) {
 
 		}else if(shoot_right && alive) {
-			
+			shoot(bot);
+			check_shoot_x(bot);
 		}else if(shoot_left && alive) {
-			
+			check_shoot_x(bot);
+			shoot(bot);		
 		} else {
 			reset();			
 		}
+		gun.tick(delta);
 	}
-		
+				
 }

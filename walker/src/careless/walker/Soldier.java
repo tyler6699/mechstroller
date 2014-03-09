@@ -5,7 +5,6 @@ import careless.walker.Enums.MANTYPE;
 import careless.walker.Enums.TYPE;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -16,8 +15,10 @@ public class Soldier extends Entity{
 	public Texture rambo;
 	TextureRegion[] rambo_frames,rambo_die_frames;
 	
-	public Entity vehicle;
+	// WEAPON
+	public Weapon gun;
 	
+	public Entity vehicle;
 	public Texture actions;
 	public TextureRegion frame;
 	public Animation anim, anim2;
@@ -27,20 +28,16 @@ public class Soldier extends Entity{
 	public Animation anim_run_left;
 	public Animation anim_die_right;
 	public Animation anim_die_left;
-	public Animation anim_rifle_right;
-	public Animation anim_rifle_left;
-	public Animation anim_motar_right;
-	public Animation anim_motar_left;
-		
+	public Animation anim_shoot_right;
+	public Animation anim_shoot_left;
+
 	public static TextureRegion[] run_right_t;
 	public static TextureRegion[] run_left_t;
 	public static TextureRegion[] die_right_t;
 	public static TextureRegion[] die_left_t;
-	public static TextureRegion[] rifle_right_t;
-	public static TextureRegion[] rifle_left_t;
-	public static TextureRegion[] motar_right_t;
-	public static TextureRegion[] motar_left_t;
-
+	public static TextureRegion[] shoot_right_t;
+	public static TextureRegion[] shoot_left_t;
+	
 	public boolean run_right 	= false;
 	public boolean run_left 	= false;
 	public boolean die_right 	= false;
@@ -71,6 +68,52 @@ public class Soldier extends Entity{
 					break;
 				}
 			}
+			
+			if (gun != null && gun.bulletList != null){
+				for (Bullet b: gun.bulletList){
+					if(b.hitbox.overlaps(bot.hitbox)){
+						System.out.println(gun.damage);
+						gun.bulletList.remove(b);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	public void shoot(Player bot){
+		if (gun.isReady_to_fire()){
+			Bullet bullet = new Bullet(x, y, bot.head_x, bot.head_y, gun.bullet_size, gun.bullet_size, gun.damage, gun.speed, gun.range);
+			gun.bulletList.add(bullet);
+			gun.setReady_to_fire(false);
+		}
+	}
+	
+	public void check_shoot_x(Player bot){
+		if (x > bot.x){
+			direction = FACING.LEFT;
+			shoot_right = false;
+			shoot_left = true;
+		}
+		
+		if (x < bot.x){
+			shoot_right = true;
+			shoot_left = false;
+			direction = FACING.RIGHT;
+		}
+	}
+	
+	public void check_run_x(Player bot){
+		if (x > bot.x){
+			direction = FACING.LEFT;
+			run_right = false;
+			shoot_left = true;
+		}
+		
+		if (x < bot.x){
+			shoot_right = true;
+			run_left = false;
+			direction = FACING.RIGHT;
 		}
 	}
 	
@@ -106,9 +149,9 @@ public class Soldier extends Entity{
 		}else if(die_left) {
 			frame = anim_die_left.getKeyFrame(tick, false);
 		}else if(shoot_right) {
-			frame = anim_rifle_right.getKeyFrame(tick, true);
+			frame = anim_shoot_right.getKeyFrame(tick, true);
 		}else if(shoot_left) {
-			frame = anim_rifle_left.getKeyFrame(tick, true);
+			frame = anim_shoot_left.getKeyFrame(tick, true);
 		}
 	}
 }

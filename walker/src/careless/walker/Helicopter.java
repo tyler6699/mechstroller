@@ -37,15 +37,17 @@ public class Helicopter extends Soldier{
 		hitbox = new Rectangle(x, y, w, h);
 
 		run_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[1];
-		run_right_t 		= TextureRegion.split(actions, (int) w, (int) h)[0];
-		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[0];
-		rifle_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[1];
-		rifle_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
+		run_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
+		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[1];
+		//die_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[4];
+		shoot_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[1];
+		shoot_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
 		anim_run_left	 = new Animation(.01f, run_left_t);
 		anim_run_right	 = new Animation(.01f, run_right_t);
 		anim_die_left 	 = new Animation(.01f, die_left_t);
-		anim_rifle_left	 = new Animation(.01f, rifle_left_t);
-		anim_rifle_right = new Animation(.01f, rifle_right_t);
+		anim_die_right 	 = new Animation(.01f, die_left_t);
+		anim_shoot_left	 = new Animation(.01f, shoot_left_t);
+		anim_shoot_right = new Animation(.01f, shoot_right_t);
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Player bot) {
@@ -122,9 +124,9 @@ public class Helicopter extends Soldier{
 		}else if(die_left) {
 			frame = anim_die_left.getKeyFrame(tick, false);
 		}else if(shoot_right) {
-			frame = anim_rifle_right.getKeyFrame(tick, true);
+			frame = anim_shoot_right.getKeyFrame(tick, true);
 		}else if(shoot_left) {			
-			frame = anim_rifle_left.getKeyFrame(tick, true);
+			frame = anim_shoot_left.getKeyFrame(tick, true);
 		}
 	}
 }

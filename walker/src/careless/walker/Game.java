@@ -47,9 +47,11 @@ public class Game {
 		// FIRE BOTS GUNS
 		if (gc.LMB){
 			if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat && (in_shoot_area()) ){
-				Bullet bullet = new Bullet(bot.head_x, bot.head_y - 8, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2);
+				Bullet bullet = new Bullet(bot.head_x, bot.head_y - 8, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2, 1, 20, bot.gun.range);
+				bullet.friendly = true;
 				bot.gun.bulletList.add(bullet);
-				bullet = new Bullet(bot.head_x - 20, bot.head_y - 10, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2);
+				bullet = new Bullet(bot.head_x - 20, bot.head_y - 10, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2, 1, 20, bot.gun.range);
+				bullet.friendly = true;
 				bot.gun.bulletList.add(bullet);
 				
 				// GUN LOGIC

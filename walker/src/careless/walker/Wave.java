@@ -33,7 +33,6 @@ public class Wave {
 		// RIFLE
 		for (int i = 0; i < (wave_no*rifle_no); i++){
 			rifle = new RifleMan(device);
-			
 			entities.add(rifle);	
 		}
 		

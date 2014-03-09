@@ -51,7 +51,7 @@ public class Player extends Entity {
 		type = TYPE.BOT;
 		
 		// WEAPON
-		gun = new Weapon(5,1);
+		gun = new Weapon(5,1,1,20,30, 2);
 		anim_speed = .03f;
 		scale = 1;
 		w = device.w_scale * (63*scale);
@@ -115,6 +115,9 @@ public class Player extends Entity {
 		batch.draw(frame, x, y, w, h);
 		//batch.draw(frame, head_x, head_y, 8, 8);
 		batch.draw(head_frame, x + 30 + x_mod, y+10 + y_mod, 45*scale, 61*scale);
+		
+		//Update HITBOX
+		hitbox.set(x, y, w, h);
 	}
 	
 	void get_angle(){

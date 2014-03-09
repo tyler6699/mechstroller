@@ -3,6 +3,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet extends Entity {
+	public boolean	  friendly;
 	private float     startX = 0;
 	private float     startY = 0;
 	public float      destX = 0;
@@ -16,7 +17,10 @@ public class Bullet extends Entity {
 	public float      ammo_height = 15;
 	public int        damage = 1;
 	
-	public Bullet(float startX, float startY, float destX, float destY, float ammo_width, float ammo_height) {
+	public Bullet(float startX, float startY, float destX, float destY, float ammo_width, float ammo_height, int damage, float speed, float range) {
+		friendly = false;
+		this.speed = speed;
+		this.damage = damage;
 		this.startX         = startX;
 		this.startY         = startY;
 		this.ammo_width     = ammo_width;
@@ -24,6 +28,7 @@ public class Bullet extends Entity {
 		this.destX          = destX;
 		this.destY          = destY;
 		this.duration       = 0;
+		this.max_duration   = range;
 		this.location.set(startX, startY);
 		recalculateVector(destX, destY);
 		this.hitbox = new Rectangle(startX, startY,ammo_width,ammo_height);
