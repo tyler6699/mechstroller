@@ -13,15 +13,17 @@ public class Walker implements ApplicationListener {
 	Game game;		// MAIN GAME
 	Device device;  // SCREEN & TOUCH 
 	GameController gc;
+	Art art;
 		
 	@Override
 	public void create() {		
 		GLTexture.setEnforcePotImages(false);
 		device = new Device();
+		art = new Art();
 		camera = new OrthographicCamera(device.w, device.h);
 		camera.position.set(device.w/2, device.h/2, 0);
 		batch = new SpriteBatch();
-		game = new Game(device, camera);
+		game = new Game(device, camera, art);
 		gc = new GameController(camera);
 		Gdx.input.setInputProcessor(gc);
 	}

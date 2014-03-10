@@ -18,10 +18,12 @@ public class Game {
 	float percent;
 	boolean last_move_forward;
 	ArrayList<Entity> entities;
+	Art art;
 	
-	public Game(Device device, OrthographicCamera camera){
+	public Game(Device device, OrthographicCamera camera, Art art){
 		this.device = device;
 		this.camera = camera;
+		this.art = art;
 		
 		// All Entities
 		entities = new ArrayList<Entity>();

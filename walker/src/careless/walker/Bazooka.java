@@ -25,9 +25,11 @@ public class Bazooka extends Soldier{
 		direction = FACING.LEFT;
 		
 		gun = new Weapon(100,1, 4, 10, 80, 4);
+		shoot_x = x;
+		shoot_y = y;
 		
 		hitbox = new Rectangle(x, y, w, h);
-		actions = new Texture(Gdx.files.internal("data/walker/punk_girl.png"));;
+		actions = Art.bazooka_girl;
 		int s = 40;
 
 		run_left_t 		= TextureRegion.split(actions, s, s)[0];
@@ -42,6 +44,8 @@ public class Bazooka extends Soldier{
 		
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
+		shoot_x = x;
+		shoot_y = y;
 		
 		tick += delta;
 		if (dying){

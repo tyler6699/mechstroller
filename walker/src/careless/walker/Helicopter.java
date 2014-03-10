@@ -16,26 +16,35 @@ public class Helicopter extends Soldier{
 	public TextureRegion[] blade_frames;
 	public Animation blade_anim;
 	public TextureRegion blade_frame;
+	float t = 120;
+	boolean up = true;
+	float hover_time = 0;
+	boolean drop_off;
+	Device device;
 	
 	public Helicopter(Device device){
 		super(MANTYPE.HELICOPTER, device);
-		hp = 20;
-		
+		hp = 10;
+		gun = new Weapon(50,1, 5, 10, 90, 6);
 		w = 180;
 		h = 95;
+		this.device = device;
 		x 		 = device.w + device.random_int(0,100);
 		dest_x   = device.random_int(100,device.w/2);
 		y 		 = device.random_int(device.h/2,device.h-h);
+		shoot_x = x + (w/2);
+		shoot_y = y + 10;
 		
-		liveable = false;
+		liveable = true;
 		//run_left = true;
 		run_left = true;
+		drop_off = false;
 		
 		direction = FACING.LEFT;
-		actions = new Texture(Gdx.files.internal("data/walker/helicopter.png"));
-		blades = new Texture(Gdx.files.internal("data/walker/helicopter-blades.png"));
-		blade_frames = TextureRegion.split(blades, 122, 21)[0];
-		blade_anim = new Animation(0.01f, blade_frames);
+		actions = Art.helicopter;
+		//		blades = new Texture(Gdx.files.internal("data/walker/helicopter-blades.png"));
+		//		blade_frames = TextureRegion.split(blades, 122, 21)[0];
+		 //		blade_anim = new Animation(0.01f, blade_frames);
 		
 		hitbox = new Rectangle(x, y, w, h);
 
@@ -43,18 +52,20 @@ public class Helicopter extends Soldier{
 		run_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
 		die_left_t 		= TextureRegion.split(actions, (int) w, (int) h)[3];
 		die_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[2];
-		shoot_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[1];
-		shoot_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[0];
+		shoot_left_t 	= TextureRegion.split(actions, (int) w, (int) h)[5];
+		shoot_right_t 	= TextureRegion.split(actions, (int) w, (int) h)[4];
 		anim_run_left	 = new Animation(.01f, run_left_t);
 		anim_run_right	 = new Animation(.01f, run_right_t);
 		anim_die_left 	 = new Animation(.1f, die_left_t);
-		anim_die_right 	 = new Animation(.1f, die_left_t);
-		anim_shoot_left	 = new Animation(.01f, shoot_left_t);
-		anim_shoot_right = new Animation(.01f, shoot_right_t);
+		anim_die_right 	 = new Animation(.1f, die_right_t);
+		anim_shoot_left	 = new Animation(.04f, shoot_left_t);
+		anim_shoot_right = new Animation(.04f, shoot_right_t);
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w/2, h);
+		shoot_x = x + (w/2);
+		shoot_y = y + 10;
 		tick += delta;
 		
 		if (dying){
@@ -65,18 +76,16 @@ public class Helicopter extends Soldier{
 			}
 		}
 		
-		logic();
+		logic(bot, delta);
 		get_frame();
 		check_collisions(bot, entities);		
 		batch.draw(frame, x, y, w/2, h/2, w, h, .49f, 1.94f, t, true);
+		gun.tick(delta, batch);
 	}	
-	float t = 120;
-	boolean up = true;
-	float hover_time = 0;
 	
-	protected void logic(){
+	protected void logic(Player bot, float delta){		
 		if (run_right){
-		
+			
 		} else if(run_left) {
 			if (x > dest_x){
 				x -= 4.5F;
@@ -86,7 +95,7 @@ public class Helicopter extends Soldier{
 			} else {
 				reset();
 				tick = 0;
-				shoot_left = true;
+				drop_off = true;
 			}
 		}else if(die_right) {
 			if (y > 50){
@@ -97,9 +106,7 @@ public class Helicopter extends Soldier{
 			if (y > 50){
 				y -= 5;	
 			}
-		}else if(shoot_right) {
-			
-		}else if(shoot_left) {
+		} else if (drop_off){
 			hover_time ++;
 			if(t > 85 && up){
 				t-=.05f;
@@ -114,12 +121,47 @@ public class Helicopter extends Soldier{
 			}
 			
 			if(hover_time > 100){
-				x -= 4.5F;
+				if (x + w > 0){
+					x -= 4.5F;
+				} else {
+					reset();
+					shoot_right = true;
+					drop_off = false;
+					y = device.random_int(device.h/2,device.h-h);
+				}
+			}
+		}else if(shoot_right) {
+			if (x < w + (1.2 * device.w)){
+				direction = FACING.RIGHT;
+				x += 5F;
+				if(t > 60){
+					t-=.5f;
+				}
+				shoot(bot);
+			} else {
+				reset();
+				tick = 0;
+				shoot_left = true;
+				y = device.random_int(device.h/2,device.h-h);
+			}
+		}else if(shoot_left) {
+			if (x + 3*w > 0){
+				direction = FACING.LEFT;
+				x -= 5F;
+				if(t < 120){
+					t+=.5f;
+				}
+				shoot(bot);
+			} else {
+				reset();
+				tick = 0;
+				shoot_right = true;
 			}
 		}
 		
 		vehicle_x = x + 40;
 		vehicle_y = y + 25;
+		gun.tick(delta);
 	}
 	
 	protected void get_frame(){
@@ -133,7 +175,7 @@ public class Helicopter extends Soldier{
 			frame = anim_die_left.getKeyFrame(tick, false);
 		}else if(shoot_right) {
 			frame = anim_shoot_right.getKeyFrame(tick, true);
-		}else if(shoot_left) {			
+		}else if(shoot_left || drop_off) {			
 			frame = anim_shoot_left.getKeyFrame(tick, true);
 		}
 	}

@@ -19,7 +19,7 @@ public class Soldier extends Entity{
 	
 	// WEAPON
 	public Weapon gun;
-	
+	public float shoot_x, shoot_y;
 	public Entity vehicle;
 	public Texture actions;
 	public TextureRegion frame;
@@ -88,7 +88,7 @@ public class Soldier extends Entity{
 	
 	public void shoot(Player bot){
 		if (gun.isReady_to_fire()){
-			Bullet bullet = new Bullet(x, y, bot.head_x, bot.head_y, gun.bullet_size, gun.bullet_size, gun.damage, gun.speed, gun.range);
+			Bullet bullet = new Bullet(shoot_x, shoot_y, bot.head_x, bot.head_y, gun.bullet_size, gun.bullet_size, gun.damage, gun.speed, gun.range);
 			gun.bulletList.add(bullet);
 			gun.setReady_to_fire(false);
 		}
@@ -123,6 +123,7 @@ public class Soldier extends Entity{
 	}
 	
 	public void die(ArrayList<Entity> entities) {
+		System.out.println(direction);
 		if (weapon == MANTYPE.HELICOPTER){
 			for (Entity e: entities){
 				if(e.type == TYPE.SOLDIER){
@@ -143,6 +144,7 @@ public class Soldier extends Entity{
 			die_right = true;
 		}
 			
+		System.out.println("LEFT: " + die_left + " RIGHT: " + die_right);
 	}
 	
 	public void die() {		

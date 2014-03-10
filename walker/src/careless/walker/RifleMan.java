@@ -25,10 +25,12 @@ public class RifleMan extends Soldier{
 		run_left = true;
 		direction = FACING.LEFT;
 		hitbox = new Rectangle(x, y, w, h);
-		actions = new Texture(Gdx.files.internal("data/walker/red_punk_run.png"));;
+		actions = Art.punk_rifle;
 		int s = 40;
 		
 		gun = new Weapon(100,1, 1, 10, 25, 2);
+		shoot_x = x;
+		shoot_y = y;
 		
 		run_left_t 		= TextureRegion.split(actions, s, s)[0];
 		die_left_t 		= TextureRegion.split(actions, s, s)[1];
@@ -44,6 +46,9 @@ public class RifleMan extends Soldier{
 	
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
+		shoot_x = x;
+		shoot_y = y;
+		
 		tick += delta;
 		if (dying){
 			if(bleed_time < 70){
