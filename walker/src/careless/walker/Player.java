@@ -98,7 +98,7 @@ public class Player extends Entity {
 					game.last_move_forward = true;
 					game.shop_1.x -= 4f;	
 					game.shop_2.x -= 4f;
-					
+					game.shop_3.x -= 4f;
 					// 0 = new wave
 					game.wave.next_wave_count --;
 					

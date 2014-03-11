@@ -21,7 +21,7 @@ public class Game {
 	Art art;
 	HiFi hifi;
 	
-	Entity shop_1, shop_2;
+	Entity shop_1, shop_2, shop_3;
 	boolean play_rifle;
 	
 	public Game(Device device, OrthographicCamera camera, Art art){
@@ -38,18 +38,25 @@ public class Game {
 		
 		// SHOPS
 		shop_1 = new Entity();
-		shop_1.x = 100;
+		shop_1.x = 40;
 		shop_1.y = 200;
 		shop_1.texture = new Texture(Gdx.files.internal("data/walker/cyber-shop.png"));
 		shop_1.w = shop_1.texture.getWidth();
 		shop_1.h = shop_1.texture.getHeight();
 		
 		shop_2 = new Entity();
-		shop_2.x = shop_1.w * 1.6f;
+		shop_2.x = shop_1.x + shop_1.w + 80;
 		shop_2.y = 200;
 		shop_2.texture = new Texture(Gdx.files.internal("data/walker/careless-shop.png"));
-		shop_2.w = shop_1.texture.getWidth();
-		shop_2.h = shop_1.texture.getHeight();
+		shop_2.w = shop_2.texture.getWidth();
+		shop_2.h = shop_2.texture.getHeight();
+		
+		shop_3 = new Entity();
+		shop_3.x = shop_2.x + shop_2.w + 70;
+		shop_3.y = 200;
+		shop_3.texture = new Texture(Gdx.files.internal("data/walker/pixel-shop.png"));
+		shop_3.w = shop_3.texture.getWidth();
+		shop_3.h = shop_3.texture.getHeight();
 
 		// WAVE ATTACKS
 		wave = new Wave(device, entities);
@@ -98,7 +105,11 @@ public class Game {
 		}
 		
 		if (shop_2.x + shop_2.w < 0){
-			shop_2.x = 1.3f*device.h ;
+			shop_2.x = shop_1.x + shop_1.w + 80;
+		}
+		
+		if (shop_3.x + shop_3.w < 0){
+			shop_3.x = shop_2.x + shop_2.w + 70;
 		}
 	}
 	
@@ -110,6 +121,7 @@ public class Game {
 		batch.draw(background, 0,0,device.w,device.h);
 		batch.draw(shop_1.texture, shop_1.x,shop_1.y,shop_1.w,shop_1.h);
 		batch.draw(shop_2.texture, shop_2.x,shop_2.y,shop_2.w,shop_2.h);
+		batch.draw(shop_3.texture, shop_3.x,shop_3.y,shop_3.w,shop_3.h);
 		
 		// HUD
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
