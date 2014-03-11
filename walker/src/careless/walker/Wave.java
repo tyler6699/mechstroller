@@ -18,6 +18,7 @@ public class Wave {
 	int motar_no;
 	int bike_no;
 	int next_wave_count;
+	public boolean walk_to_next_wave = false;
 	
 	public Wave(Device device, ArrayList<Entity> entities){
 		this.device = device;
@@ -67,7 +68,8 @@ public class Wave {
     }
 
 	public void tick(ArrayList<Entity> entities){
-		if (all_dead && next_wave_count == 0){
+		System.out.println("All Dead: " + all_dead + " wave count: " + next_wave_count + " walk: " + walk_to_next_wave);
+		if (all_dead && next_wave_count == 0 && !walk_to_next_wave){
 		    Iterator<Entity> e = entities.iterator();
 		    while(e.hasNext()){
 		    	Entity entity = e.next();
@@ -78,6 +80,7 @@ public class Wave {
 			next_wave(entities);
 			next_wave_count = 100;
 		} else if (all_dead && next_wave_count > 0){
+			walk_to_next_wave = true;
 			next_wave_count --;
 		}
 	}

@@ -92,26 +92,53 @@ public class Player extends Entity {
 		//System.out.println(hp);
 		pos.set(x,y);
 		// MOVE BOT - Should be in logic
-		if (gc.move_left){
-			if (x > -w){
-				game.last_move_forward = false;
-				x -= 4f;		
-			}
-			
-		} else if (gc.move_right){
-			if (x < device.w + w){
-				game.last_move_forward = true;
+		
+		if (game.wave.walk_to_next_wave){
+			if (gc.move_left){
+				if (x > -w){
+					game.last_move_forward = false;
+					game.shop_1.x += 4f;	
+					game.shop_2.x += 4f;	
+				}
+				
+			} else if (gc.move_right){
+				if (x < device.w + w){
+					game.last_move_forward = true;
+					game.shop_1.x -= 4f;	
+					game.shop_2.x -= 4f;
+					delta -= 2*delta;
+				}
+			} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
 				x += 4f;	
 				delta -= 2*delta;
+			} else if (!game.last_move_forward && frameNumber != 15 && frameNumber != 6){
+				x -= 4f;	
+			} else {
+				delta = 0;
 			}
-		} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
-			x += 4f;	
-			delta -= 2*delta;
-		} else if (!game.last_move_forward && frameNumber != 15 && frameNumber != 6){
-			x -= 4f;	
 		} else {
-			delta = 0;
+			if (gc.move_left){
+				if (x > -w){
+					game.last_move_forward = false;
+					x -= 4f;		
+				}
+				
+			} else if (gc.move_right){
+				if (x < device.w + w){
+					game.last_move_forward = true;
+					x += 4f;	
+					delta -= 2*delta;
+				}
+			} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
+				x += 4f;	
+				delta -= 2*delta;
+			} else if (!game.last_move_forward && frameNumber != 15 && frameNumber != 6){
+				x -= 4f;	
+			} else {
+				delta = 0;
+			}
 		}
+		
 		
 		tick += delta;
 		tick = tick > 0 ? tick : 16*anim_speed;

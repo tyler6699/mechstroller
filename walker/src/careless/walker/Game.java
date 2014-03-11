@@ -21,6 +21,7 @@ public class Game {
 	Art art;
 	HiFi hifi;
 	
+	Entity shop_1, shop_2;
 	boolean play_rifle;
 	
 	public Game(Device device, OrthographicCamera camera, Art art){
@@ -35,10 +36,25 @@ public class Game {
 		bot = new Player(device);
 		entities.add(bot);
 		
+		// SHOPS
+		shop_1 = new Entity();
+		shop_1.x = 50;
+		shop_1.y = 200;
+		shop_1.texture = new Texture(Gdx.files.internal("data/walker/cyber-shop.png"));
+		shop_1.w = shop_1.texture.getWidth();
+		shop_1.h = shop_1.texture.getHeight();
+		
+		shop_2 = new Entity();
+		shop_2.x = shop_1.w * 1.3f;
+		shop_2.y = 200;
+		shop_2.texture = new Texture(Gdx.files.internal("data/walker/careless-shop.png"));
+		shop_2.w = shop_1.texture.getWidth();
+		shop_2.h = shop_1.texture.getHeight();
+
 		// WAVE ATTACKS
 		wave = new Wave(device, entities);
 		
-		background = new Texture(Gdx.files.internal("data/walker/view.jpg"));
+		background = new Texture(Gdx.files.internal("data/walker/background.png"));
 		cursor = new Texture(Gdx.files.internal("data/walker/crosshair.png"));
 		temperature = new Texture(Gdx.files.internal("data/walker/temperature.png"));
 		heat = new Texture(Gdx.files.internal("data/walker/heat.png"));
@@ -83,6 +99,8 @@ public class Game {
 
 	public void tick(float delta, SpriteBatch batch,GameController gc){		
 		batch.draw(background, 0,0,device.w,device.h);
+		batch.draw(shop_1.texture, shop_1.x,shop_1.y,shop_1.w,shop_1.h);
+		batch.draw(shop_2.texture, shop_2.x,shop_2.y,shop_2.w,shop_2.h);
 		
 		// HUD
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
