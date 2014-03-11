@@ -121,6 +121,7 @@ public class RifleMan extends Soldier{
 		}else if(die_left) {
 
 		}else if(shoot_right && alive) {
+			HiFi.play_ak47(true);
 			shoot(bot);
 			check_shoot_x(bot);
 			if (pos.dst(bot.pos.x + w, bot.pos.y) > (gun.range * gun.speed) ){
@@ -129,8 +130,9 @@ public class RifleMan extends Soldier{
 				x -= 2f;
 			}
 		}else if(shoot_left && alive) {
+			HiFi.play_ak47(true);
 			check_shoot_x(bot);
-			shoot(bot);		
+			shoot(bot);	
 			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
 				x -= 2.5f;
 			} else if (pos.dst(bot.pos.x + w, bot.pos.y) < 100 ) {

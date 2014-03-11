@@ -11,7 +11,7 @@ public class Wave {
 	private Helicopter helicopter;
 	
 	boolean all_dead = true;
-	boolean reset_wave = false;
+	boolean reset_wave = true;
 	Device device;
 	int wave_no;
 	int rifle_no;

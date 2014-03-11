@@ -19,12 +19,15 @@ public class Game {
 	boolean last_move_forward;
 	ArrayList<Entity> entities;
 	Art art;
+	HiFi hifi;
+	
+	boolean play_rifle;
 	
 	public Game(Device device, OrthographicCamera camera, Art art){
 		this.device = device;
 		this.camera = camera;
 		this.art = art;
-		
+		this.hifi = new HiFi();
 		// All Entities
 		entities = new ArrayList<Entity>();
 		
@@ -49,6 +52,10 @@ public class Game {
 		// FIRE BOTS GUNS
 		if (gc.LMB){
 			if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat && (in_shoot_area()) ){
+
+				// SOUND
+				hifi.play_gattling(true);
+				
 				Bullet bullet = new Bullet(bot.head_x, bot.head_y - 8, Gdx.input.getX(), 768 - Gdx.input.getY(), 2, 2, 1, 20, bot.gun.range);
 				bullet.friendly = true;
 				bot.gun.bulletList.add(bullet);
@@ -59,7 +66,11 @@ public class Game {
 				// GUN LOGIC
 				bot.gun.setReady_to_fire(false);
 				bot.gun.heat += 80;
+			} else if (bot.gun.heat >= bot.gun.max_heat)   {
+				hifi.stop_gattling(true);
 			}
+		} else {
+			hifi.stop_gattling(true);
 		}
 				
 		// WEAPON
@@ -83,6 +94,7 @@ public class Game {
 				
 		// DRAW & LOGIC
 		wave.all_dead = true;
+		play_rifle = false;
 		
 		for (Entity e : entities){
 			if(e.type == TYPE.BOT){
@@ -93,10 +105,14 @@ public class Game {
 				
 				if (e.alive && e.liveable){
 					wave.all_dead = false;
+					play_rifle = true;
 				}
 			}
 		}
 		
+		if (play_rifle){
+			//HiFi.play_ak47(true);
+		}
 		// WEAPON
 		bot.gun.tick(delta, batch);
 		

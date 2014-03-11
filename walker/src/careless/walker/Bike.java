@@ -40,16 +40,16 @@ public class Bike extends Soldier{
 		shoot_x = x - 5;
 		shoot_y = y + 5;
 		
-		run_left_t 		= TextureRegion.split(actions, (int)w, (int)h)[1];
-		run_right_t 		= TextureRegion.split(actions, (int)w, (int)h)[0];
-		die_left_t 		= TextureRegion.split(actions, (int)w, (int)h)[0];
-		shoot_left_t 	= TextureRegion.split(actions, (int)w, (int)h)[3];
-		shoot_right_t 	= TextureRegion.split(actions, (int)w, (int)h)[2];
-		die_right_t 	= TextureRegion.split(actions, (int)w, (int)h)[0];
+		run_left_t 		 = TextureRegion.split(actions, (int)w, (int)h)[1];
+		run_right_t 	 = TextureRegion.split(actions, (int)w, (int)h)[0];
+		shoot_left_t 	 = TextureRegion.split(actions, (int)w, (int)h)[3];
+		shoot_right_t 	 = TextureRegion.split(actions, (int)w, (int)h)[2];
+		die_right_t 	 = TextureRegion.split(actions, (int)w, (int)h)[4];
+		die_left_t 		 = TextureRegion.split(actions, (int)w, (int)h)[5];
 		anim_run_left	 = new Animation(0.05f, run_left_t);
 		anim_run_right	 = new Animation(0.05f, run_right_t);
-		anim_die_left 	 = new Animation(0.05f, die_left_t);
-		anim_die_right 	 = new Animation(0.05f, die_right_t);
+		anim_die_left 	 = new Animation(0.1f, die_left_t);
+		anim_die_right 	 = new Animation(0.1f, die_right_t);
 		anim_shoot_left	 = new Animation(0.05f, shoot_left_t);
 		anim_shoot_right = new Animation(0.05f, shoot_right_t);
 	}
