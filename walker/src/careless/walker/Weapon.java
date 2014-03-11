@@ -33,7 +33,7 @@ public class Weapon {
 	 this.speed = speed;
 	 this.accuracy = accuracy;
 	 bullet  = new Texture(Gdx.files.internal("data/walker/bullet.png"));
-	 max_heat = 1500;
+	 max_heat = 3000;
 	 heat = 0;
 	}
 	

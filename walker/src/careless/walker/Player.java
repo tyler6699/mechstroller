@@ -47,18 +47,20 @@ public class Player extends Entity {
 	public Texture player_hit;
 	public Rectangle hitbox;
 	public Weapon gun;
+	private Device device;
 	
 	public Player(Device device){
 		super();
 		
 		// Type of entity
 		type = TYPE.BOT;
-		
+		this.device = device;
 		// HP
-		max_hp = 100;
+		max_hp = 1000;
 		hp = max_hp;
+
 		// WEAPON
-		gun = new Weapon(5,1,1,20,30,2);
+		gun = new Weapon(5,1,1,20,30,4);
 		anim_speed = .03f;
 		scale = 1;
 		w = device.w_scale * (63*scale);
@@ -87,16 +89,21 @@ public class Player extends Entity {
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
-		System.out.println(hp);
+		//System.out.println(hp);
 		pos.set(x,y);
 		// MOVE BOT - Should be in logic
 		if (gc.move_left){
-			game.last_move_forward = false;
-			x -= 4f;	
+			if (x > -w){
+				game.last_move_forward = false;
+				x -= 4f;		
+			}
+			
 		} else if (gc.move_right){
-			game.last_move_forward = true;
-			x += 4f;	
-			delta -= 2*delta;
+			if (x < device.w + w){
+				game.last_move_forward = true;
+				x += 4f;	
+				delta -= 2*delta;
+			}
 		} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
 			x += 4f;	
 			delta -= 2*delta;

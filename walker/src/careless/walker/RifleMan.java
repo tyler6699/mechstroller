@@ -16,12 +16,25 @@ public class RifleMan extends Soldier{
 		hp = 1;
 		w=40;
 		h=40;
-		x 		 = device.w + device.random_int(0,100);
-		dest_x   = device.random_int(device.w/4,device.w-w);
-		y 		 = device.random_int(0,200);
-		dest_y = y;
-		run_left = true;
-		direction = FACING.LEFT;
+		
+		if (device.random_int(0,100) > 50){
+			x 		 = device.random_int(w,4*w);
+			x = -x;
+			dest_x   = device.random_int(device.w-w,device.w/4);
+			y 		 = device.random_int(0,200);
+			y 		 = device.random_int(0,200);
+			dest_y = y;
+			run_right = true;
+			direction = FACING.RIGHT;
+		} else {
+			x 		 = device.w + device.random_int(0,100);
+			dest_x   = device.random_int(device.w/4,device.w-w);
+			y 		 = device.random_int(0,200);
+			dest_y = y;
+			run_left = true;
+			direction = FACING.LEFT;
+		}
+		
 		hitbox = new Rectangle(x, y, w, h);
 		actions = Art.punk_rifle;
 		int s = 40;
@@ -31,11 +44,13 @@ public class RifleMan extends Soldier{
 		shoot_y = y;
 		
 		run_left_t 		= TextureRegion.split(actions, s, s)[0];
+		run_right_t 	= TextureRegion.split(actions, s, s)[5];
 		die_left_t 		= TextureRegion.split(actions, s, s)[1];
 		shoot_left_t 	= TextureRegion.split(actions, s, s)[2];
 		shoot_right_t 	= TextureRegion.split(actions, s, s)[3];
 		die_right_t 	= TextureRegion.split(actions, s, s)[4];
 		anim_run_left	 = new Animation(0.1f, run_left_t);
+		anim_run_right	 = new Animation(0.1f, run_right_t);
 		anim_die_left 	 = new Animation(0.1f, die_left_t);
 		anim_die_right 	 = new Animation(0.1f, die_right_t);
 		anim_shoot_left	 = new Animation(0.1f, shoot_left_t);
@@ -84,6 +99,13 @@ public class RifleMan extends Soldier{
 			
 		} else if (run_right && alive){
 			check_run_x(bot);
+			if (x < dest_x){
+				x += 2.5F;
+			} else {
+				reset();
+				tick = 0;
+				shoot_right = true;
+			}			
 		} else if(run_left && alive) {
 			if (x > dest_x){
 				x -= 2.5F;

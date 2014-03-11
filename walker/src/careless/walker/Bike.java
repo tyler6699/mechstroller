@@ -16,8 +16,7 @@ public class Bike extends Soldier{
 		hp = 25;
 		w=124;
 		h=62;
-		
-		
+	
 		if (device.random_int(0,100) > 50){
 			x 		 = -200;//device.w + device.random_int(0,100);
 			dest_x   = device.random_int(device.w-w, device.w/4);
