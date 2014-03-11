@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -64,6 +63,7 @@ public class Helicopter extends Soldier{
 	
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w/2, h);
+		pos.set(x,y);
 		shoot_x = x + (w/2);
 		shoot_y = y + 10;
 		tick += delta;

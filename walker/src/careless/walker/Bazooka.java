@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -44,6 +42,7 @@ public class Bazooka extends Soldier{
 		
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
+		pos.set(x,y);
 		shoot_x = x;
 		shoot_y = y;
 		
@@ -81,10 +80,12 @@ public class Bazooka extends Soldier{
 		
 		}else if(shoot_right) {
 			shoot(bot);
-			//check_shoot_x(bot);
+						
 		}else if(shoot_left) {
 			shoot(bot);
-			//check_shoot_x(bot);
+			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
+				x -= 2.5f;
+			}
 		}
 		gun.tick(delta);
 	}

@@ -87,7 +87,8 @@ public class Player extends Entity {
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
-		//System.out.println(hp);
+		System.out.println(hp);
+		pos.set(x,y);
 		// MOVE BOT - Should be in logic
 		if (gc.move_left){
 			game.last_move_forward = false;

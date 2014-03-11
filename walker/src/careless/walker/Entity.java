@@ -6,9 +6,11 @@ import careless.walker.Enums.TYPE;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Entity implements Comparable<Entity>{
 	public int id;
+	public Vector2 pos;
 	public String name;
 	public TYPE type;
 	boolean alive, dying, falling;
@@ -30,6 +32,7 @@ public class Entity implements Comparable<Entity>{
 	public Entity (){
 		liveable = true;
 		falling = false;
+		pos = new Vector2();
 	}
 
 	public int compareTo(Entity entity) {

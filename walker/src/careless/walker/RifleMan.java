@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import careless.walker.Enums.FACING;
 import careless.walker.Enums.MANTYPE;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -46,6 +44,7 @@ public class RifleMan extends Soldier{
 	
 	public void tick(float delta, SpriteBatch batch, Player bot, ArrayList<Entity> entities) {
 		hitbox.set(x, y, w, h);
+		pos.set(x,y);
 		shoot_x = x;
 		shoot_y = y;
 		
@@ -102,9 +101,19 @@ public class RifleMan extends Soldier{
 		}else if(shoot_right && alive) {
 			shoot(bot);
 			check_shoot_x(bot);
+			if (pos.dst(bot.pos.x + w, bot.pos.y) > (gun.range * gun.speed) ){
+				x += 2.5f;
+			} else if (pos.dst(bot.pos.x, bot.pos.y) < (50) ) {
+				x -= 2f;
+			}
 		}else if(shoot_left && alive) {
 			check_shoot_x(bot);
 			shoot(bot);		
+			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
+				x -= 2.5f;
+			} else if (pos.dst(bot.pos.x + w, bot.pos.y) < 100 ) {
+				x += 2f;
+			}
 		} else {
 			reset();			
 		}
