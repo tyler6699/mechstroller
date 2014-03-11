@@ -123,7 +123,6 @@ public class Soldier extends Entity{
 	}
 	
 	public void die(ArrayList<Entity> entities) {
-		System.out.println(direction);
 		if (weapon == MANTYPE.HELICOPTER){
 			for (Entity e: entities){
 				if(e.type == TYPE.SOLDIER){
@@ -143,8 +142,6 @@ public class Soldier extends Entity{
 		} else {
 			die_right = true;
 		}
-			
-		System.out.println("LEFT: " + die_left + " RIGHT: " + die_right);
 	}
 	
 	public void die() {		

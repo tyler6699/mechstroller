@@ -17,6 +17,7 @@ public class Wave {
 	int rifle_no;
 	int motar_no;
 	int bike_no;
+	int next_wave_count;
 	
 	public Wave(Device device, ArrayList<Entity> entities){
 		this.device = device;
@@ -25,6 +26,7 @@ public class Wave {
 		rifle_no = 3;
 		motar_no = rifle_no/2;
 		bike_no = 1;
+		next_wave_count = 100;
 	}
 	
 	public void next_wave(ArrayList<Entity> entities){
@@ -65,7 +67,7 @@ public class Wave {
     }
 
 	public void tick(ArrayList<Entity> entities){
-		if (all_dead){
+		if (all_dead && next_wave_count == 0){
 		    Iterator<Entity> e = entities.iterator();
 		    while(e.hasNext()){
 		    	Entity entity = e.next();
@@ -74,6 +76,9 @@ public class Wave {
 				}
 		    }
 			next_wave(entities);
+			next_wave_count = 100;
+		} else if (all_dead && next_wave_count > 0){
+			next_wave_count --;
 		}
 	}
 }
