@@ -89,24 +89,31 @@ public class Player extends Entity {
 	}
 	
 	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
-		//System.out.println(hp);
 		pos.set(x,y);
-		// MOVE BOT - Should be in logic
 		
+		// AFTER WAVE ONLY WALK RIGHT
 		if (game.wave.walk_to_next_wave){
-			if (gc.move_left){
-				if (x > -w){
-					game.last_move_forward = false;
-					game.shop_1.x += 4f;	
-					game.shop_2.x += 4f;	
-				}
-				
-			} else if (gc.move_right){
+			if (gc.move_right){
 				if (x < device.w + w){
 					game.last_move_forward = true;
 					game.shop_1.x -= 4f;	
 					game.shop_2.x -= 4f;
+					
+					// 0 = new wave
+					game.wave.next_wave_count --;
+					
 					delta -= 2*delta;
+					if (x < device.w/2){
+						x +=2f;
+					} else if(x > device.w/2){
+						x -=2f; 
+					}
+					// move the dead
+					for (Entity e: game.entities){
+						if(e.type == TYPE.SOLDIER){
+							e.x -= 4f;
+						}
+					}
 				}
 			} else if (game.last_move_forward && frameNumber != 15 && frameNumber != 6){
 				x += 4f;	
@@ -116,6 +123,7 @@ public class Player extends Entity {
 			} else {
 				delta = 0;
 			}
+			
 		} else {
 			if (gc.move_left){
 				if (x > -w){

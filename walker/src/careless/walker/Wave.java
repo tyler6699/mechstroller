@@ -27,7 +27,7 @@ public class Wave {
 		rifle_no = 3;
 		motar_no = rifle_no/2;
 		bike_no = 1;
-		next_wave_count = 100;
+		next_wave_count = 320;
 	}
 	
 	public void next_wave(ArrayList<Entity> entities){
@@ -68,7 +68,6 @@ public class Wave {
     }
 
 	public void tick(ArrayList<Entity> entities){
-		System.out.println("All Dead: " + all_dead + " wave count: " + next_wave_count + " walk: " + walk_to_next_wave);
 		if (all_dead && next_wave_count == 0 && !walk_to_next_wave){
 		    Iterator<Entity> e = entities.iterator();
 		    while(e.hasNext()){
@@ -78,10 +77,11 @@ public class Wave {
 				}
 		    }
 			next_wave(entities);
-			next_wave_count = 100;
+			next_wave_count = 320;
 		} else if (all_dead && next_wave_count > 0){
 			walk_to_next_wave = true;
-			next_wave_count --;
+		} else if (all_dead && next_wave_count <= 0){
+			walk_to_next_wave = false;
 		}
 	}
 }

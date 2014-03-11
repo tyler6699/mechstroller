@@ -38,14 +38,14 @@ public class Game {
 		
 		// SHOPS
 		shop_1 = new Entity();
-		shop_1.x = 50;
+		shop_1.x = 100;
 		shop_1.y = 200;
 		shop_1.texture = new Texture(Gdx.files.internal("data/walker/cyber-shop.png"));
 		shop_1.w = shop_1.texture.getWidth();
 		shop_1.h = shop_1.texture.getHeight();
 		
 		shop_2 = new Entity();
-		shop_2.x = shop_1.w * 1.3f;
+		shop_2.x = shop_1.w * 1.6f;
 		shop_2.y = 200;
 		shop_2.texture = new Texture(Gdx.files.internal("data/walker/careless-shop.png"));
 		shop_2.w = shop_1.texture.getWidth();
@@ -91,6 +91,15 @@ public class Game {
 				
 		// WEAPON
 		bot.gun.tick(delta, gc);
+		
+		// CHECK SHOP X
+		if (shop_1.x + shop_1.w < 0){
+			shop_1.x = 1.3f*device.h ;
+		}
+		
+		if (shop_2.x + shop_2.w < 0){
+			shop_2.x = 1.3f*device.h ;
+		}
 	}
 	
 	public boolean in_shoot_area(){
@@ -105,7 +114,8 @@ public class Game {
 		// HUD
 		batch.draw(cursor, Gdx.input.getX()-16,768 - Gdx.input.getY()-16, 32,32);
 		batch.draw(temperature, 10,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
-				
+		batch.draw(temperature, device.w - temperature.getWidth() - 10 ,758-temperature.getHeight(), temperature.getWidth(), temperature.getHeight());
+		
 		percent = (bot.gun.heat / bot.gun.max_heat) * max;
 		percent = percent > max ? max : percent;
 		batch.draw(heat, 10,758-temperature.getHeight(), temperature.getWidth(),percent);
