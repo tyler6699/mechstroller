@@ -51,7 +51,7 @@ public class Game {
 		
 		// FONT
 		font = new BitmapFont();
-		font.scale(5);
+		font.scale(3);
 		next_wave_frames = TextureRegion.split(Art.next_wave, 303, 40)[0];
 		new_wave_anim = new Animation(0.2f, next_wave_frames);
 				
@@ -167,12 +167,14 @@ public class Game {
 			
 		} else if (death){
 			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			font.draw(batch, "GAME OVER", device.w/2 - 250, device.h/2);
+			font.draw(batch, "GAME OVER", device.w/2 - 200, device.h/2);
 			
 		} else {
 			if (wave.walk_to_next_wave){
 				wave_frame = new_wave_anim.getKeyFrame(tick, true);
 				batch.draw(wave_frame, device.w/2 - 151f, device.h/2, 303, 40);
+				font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				font.draw(batch, "Wave: " + wave.wave_no, device.w/2 - 100, device.h - 250);
 			}
 			
 			// HUD

@@ -94,7 +94,7 @@ public class Player extends Entity {
 			game.death = true;
 			game.start = false;
 			hp = max_hp;
-			game.start_time = 100;		
+			game.start_time = 50;		
 		}
 		pos.set(x,y);
 		
