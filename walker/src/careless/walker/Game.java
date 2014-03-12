@@ -92,8 +92,6 @@ public class Game {
 			} else if (bot.gun.heat >= bot.gun.max_heat)   {
 				hifi.stop_gattling(true);
 			}
-		} else {
-			hifi.stop_gattling(true);
 		}
 				
 		// WEAPON

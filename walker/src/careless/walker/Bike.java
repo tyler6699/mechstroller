@@ -77,6 +77,7 @@ public class Bike extends Soldier{
 	
 	protected void logic(Player bot, float delta){	
 		if (run_right && alive){
+			HiFi.play_bike(true);
 			if (x < dest_x){
 				x += 6F;
 			} else {
@@ -86,6 +87,7 @@ public class Bike extends Soldier{
 			}			
 			check_run_x(bot);			
 		} else if(run_left && alive) {
+			HiFi.play_bike(true);
 			if (x > dest_x){
 				x -= 6F;
 			} else {
@@ -100,7 +102,10 @@ public class Bike extends Soldier{
 		}else if(die_left) {
 
 		}else if(shoot_right && alive) {
-			shoot(bot);
+			if (gun.isReady_to_fire()){
+				HiFi.play_bike_shot(true);
+				shoot(bot);
+			}
 			check_shoot_x(bot);
 			
 			if (pos.dst(bot.pos.x + w, bot.pos.y) > (gun.range * gun.speed) ){
@@ -110,7 +115,10 @@ public class Bike extends Soldier{
 			}
 		}else if(shoot_left && alive) {
 			check_shoot_x(bot);
-			shoot(bot);	
+			if (gun.isReady_to_fire()){
+				HiFi.play_bike_shot(true);
+				shoot(bot);
+			}
 			
 			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
 				x -= 2.5f;

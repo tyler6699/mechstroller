@@ -84,6 +84,10 @@ public class Helicopter extends Soldier{
 	}	
 	
 	protected void logic(Player bot, float delta){		
+		if(alive){
+			HiFi.play_helicopter(true);
+		}
+		
 		if (run_right){
 			
 		} else if(run_left) {
@@ -137,7 +141,11 @@ public class Helicopter extends Soldier{
 				if(t > 60){
 					t-=.5f;
 				}
-				shoot(bot);
+				
+				if (gun.isReady_to_fire()){
+					HiFi.play_helicopter_shot(true);
+					shoot(bot);
+				}
 			} else {
 				reset();
 				tick = 0;
@@ -151,7 +159,11 @@ public class Helicopter extends Soldier{
 				if(t < 120){
 					t+=.5f;
 				}
-				shoot(bot);
+				
+				if (gun.isReady_to_fire()){
+					HiFi.play_helicopter_shot(true);
+					shoot(bot);
+				}
 			} else {
 				reset();
 				tick = 0;

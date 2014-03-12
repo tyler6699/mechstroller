@@ -88,6 +88,7 @@ public class GameController extends InputAdapter implements InputProcessor {
 	public boolean touchUp(int x, int y, int pointer, int button) {	
 		if( button == Buttons.LEFT){
 			LMB = false;
+			HiFi.stop_gattling(true);
 		}
 		if( button == Buttons.RIGHT){
 			RMB = false;

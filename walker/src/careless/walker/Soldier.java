@@ -124,6 +124,7 @@ public class Soldier extends Entity{
 	
 	public void die(ArrayList<Entity> entities) {
 		if (weapon == MANTYPE.HELICOPTER){
+			HiFi.play_helicopter_die(true);
 			for (Entity e: entities){
 				if(e.type == TYPE.SOLDIER){
 					if (((Soldier)e).vehicle == this){
@@ -132,6 +133,14 @@ public class Soldier extends Entity{
 					}
 				}
 			}
+		}
+		
+		if (weapon == MANTYPE.BIKE){
+			HiFi.play_helicopter_die(true);	
+		} else if (weapon == MANTYPE.RIFLE){
+			HiFi.play_die(true);	
+		} else if (weapon == MANTYPE.MOTAR){
+			HiFi.play_bazooka_die(true);	
 		}
 		
 		reset();
@@ -144,7 +153,8 @@ public class Soldier extends Entity{
 		}
 	}
 	
-	public void die() {		
+	public void die() {	
+		HiFi.play_die(true);	
 		reset();
 		dying = true;
 		tick = 0;
@@ -153,7 +163,7 @@ public class Soldier extends Entity{
 		} else {
 			die_right = true;
 		}
-			
+				
 	}
 	
 	protected void reset(){

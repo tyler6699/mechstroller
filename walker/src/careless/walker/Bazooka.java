@@ -79,10 +79,16 @@ public class Bazooka extends Soldier{
 		}else if(die_left) {
 		
 		}else if(shoot_right) {
-			shoot(bot);
+			if (gun.isReady_to_fire()){
+				HiFi.play_bazooka(true);
+				shoot(bot);
+			}
 						
 		}else if(shoot_left) {
-			shoot(bot);
+			if (gun.isReady_to_fire()){
+				HiFi.play_bazooka(true);
+				shoot(bot);
+			}
 			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
 				x -= 2.5f;
 			}
