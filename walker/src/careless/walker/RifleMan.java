@@ -39,7 +39,7 @@ public class RifleMan extends Soldier{
 		actions = Art.punk_rifle;
 		int s = 40;
 		
-		gun = new Weapon(30,1, 1, 10, 25, 2);
+		gun = new Weapon(90,1, 1, 10, 25, 2);
 		shoot_x = x;
 		shoot_y = y;
 		
