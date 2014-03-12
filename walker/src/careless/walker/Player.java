@@ -47,7 +47,7 @@ public class Player extends Entity {
 	public Texture player_hit;
 	public Rectangle hitbox;
 	public Weapon gun;
-	private Device device;
+	public Device device;
 	
 	public Player(Device device){
 		super();
@@ -55,8 +55,9 @@ public class Player extends Entity {
 		// Type of entity
 		type = TYPE.BOT;
 		this.device = device;
+		
 		// HP
-		max_hp = 1000;
+		max_hp = 3;
 		hp = max_hp;
 
 		// WEAPON
@@ -88,7 +89,13 @@ public class Player extends Entity {
 		hitbox = new Rectangle(x, y, w, h);
 	}
 	
-	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {		
+	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {	
+		if(hp<0){
+			game.death = true;
+			hp = max_hp;
+		} else {
+			
+		}
 		pos.set(x,y);
 		
 		// AFTER WAVE ONLY WALK RIGHT

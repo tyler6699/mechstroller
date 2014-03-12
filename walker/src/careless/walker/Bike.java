@@ -36,7 +36,7 @@ public class Bike extends Soldier{
 		hitbox = new Rectangle(x, y, w, h);
 		actions = Art.bike;
 		
-		gun = new Weapon(100,1, 6, 10, 45, 5);
+		gun = new Weapon(95,1, 8, 10, 45, 5);
 		shoot_x = x - 5;
 		shoot_y = y + 5;
 		
@@ -109,9 +109,9 @@ public class Bike extends Soldier{
 			check_shoot_x(bot);
 			
 			if (pos.dst(bot.pos.x + w, bot.pos.y) > (gun.range * gun.speed) ){
-				x += 2.5f;
-			} else if (pos.dst(bot.pos.x, bot.pos.y) < (100) ) {
-				x -= 3.5f;
+				x += bot.device.random_int(0.5f, 4);
+			} else if (pos.dst(bot.pos.x, bot.pos.y) < (bot.device.random_int(90, 120)) ) {
+				x -= bot.device.random_int(0.5f, 4);
 			}
 		}else if(shoot_left && alive) {
 			check_shoot_x(bot);
@@ -121,9 +121,9 @@ public class Bike extends Soldier{
 			}
 			
 			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
-				x -= 2.5f;
-			} else if (pos.dst(bot.pos.x+w, bot.pos.y) < 100 ) {
-				x += 3.5f;
+				x -= bot.device.random_int(0.5f, 4);
+			} else if (pos.dst(bot.pos.x+w, bot.pos.y) < bot.device.random_int(90, 120) ) {
+				x += bot.device.random_int(0.5f, 4);
 			}
 		} else {
 			reset();			

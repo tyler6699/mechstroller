@@ -22,7 +22,7 @@ public class Bazooka extends Soldier{
 		run_left = true;
 		direction = FACING.LEFT;
 		
-		gun = new Weapon(100,1, 4, 10, 80, 4);
+		gun = new Weapon(85,1, 5, 10, 80, 6);
 		shoot_x = x;
 		shoot_y = y;
 		

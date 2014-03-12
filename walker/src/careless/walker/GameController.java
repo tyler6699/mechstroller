@@ -141,21 +141,7 @@ public class GameController extends InputAdapter implements InputProcessor {
 			move_right = true;
 			break;
 		case Keys.SPACE:
-			jump = true;
-			break;
-		case Keys.PERIOD:
-			reset_map = true;
-			//this.renderer.setDebug_mode(!this.renderer.isDebug_mode());
-			break;
-		case Keys.L:
-			load_map = true;
-			// Shot Rate Up
-			//this.hero.getCurrent_weapon().setWeapon_fire_rate(this.hero.getCurrent_weapon().getWeapon_fire_rate() - 1);
-			break;
-		case Keys.O:
-			save_map = true;
-			// Shot Rate Up
-			//this.hero.getCurrent_weapon().setWeapon_fire_rate(this.hero.getCurrent_weapon().getWeapon_fire_rate() - 1);
+			LMB       = true;
 			break;
 		case Keys.Y:
 			break;

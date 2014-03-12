@@ -39,7 +39,7 @@ public class RifleMan extends Soldier{
 		actions = Art.punk_rifle;
 		int s = 40;
 		
-		gun = new Weapon(100,1, 1, 10, 25, 2);
+		gun = new Weapon(30,1, 1, 10, 25, 2);
 		shoot_x = x;
 		shoot_y = y;
 		
@@ -128,9 +128,9 @@ public class RifleMan extends Soldier{
 			
 			check_shoot_x(bot);
 			if (pos.dst(bot.pos.x + w, bot.pos.y) > (gun.range * gun.speed) ){
-				x += 2.5f;
-			} else if (pos.dst(bot.pos.x, bot.pos.y) < (50) ) {
-				x -= 2f;
+				x += bot.device.random_int(0.5f, 4);
+			} else if (pos.dst(bot.pos.x, bot.pos.y) < (bot.device.random_int(25, 75)) ) {
+				x -= bot.device.random_int(0.5f, 4);
 			}
 		}else if(shoot_left && alive) {
 			check_shoot_x(bot);
@@ -141,9 +141,9 @@ public class RifleMan extends Soldier{
 			}
 			
 			if (pos.dst(bot.pos.x, bot.pos.y) > (gun.range * gun.speed) ){
-				x -= 2.5f;
-			} else if (pos.dst(bot.pos.x + w, bot.pos.y) < 100 ) {
-				x += 2f;
+				x -= bot.device.random_int(0.5f, 4);
+			} else if (pos.dst(bot.pos.x + w, bot.pos.y) < bot.device.random_int(100, 120) ) {
+				x += bot.device.random_int(0.5f, 4);
 			}
 		} else {
 			reset();			

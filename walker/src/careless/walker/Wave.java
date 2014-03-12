@@ -23,11 +23,11 @@ public class Wave {
 	public Wave(Device device, ArrayList<Entity> entities){
 		this.device = device;
 		add_soldiers(entities);
-		wave_no = 1;
+		wave_no = 0;
 		rifle_no = 3;
 		motar_no = rifle_no/2;
 		bike_no = 1;
-		next_wave_count = 320;
+		next_wave_count = 300;
 	}
 	
 	public void next_wave(ArrayList<Entity> entities){
@@ -42,31 +42,63 @@ public class Wave {
 			entities.add(rifle);	
 		}
 		
+		
 		// BIKE
-		for (int i = 0; i < (wave_no*bike_no); i++){
+		if (wave_no == 4){
 			bike = new Bike(device);
 			entities.add(bike);	
 		}
 		
-		// MOTAR
-		for (int i = 0; i < (wave_no*motar_no); i++){
-			bazooka = new Bazooka(device);
-			entities.add(bazooka);	
+		if (wave_no > 9){
+			for (int i = 0; i < ((wave_no-9)*bike_no); i++){
+				bike = new Bike(device);
+				entities.add(bike);	
+			}
 		}
-				
-		helicopter = new Helicopter(device);
-		entities.add(helicopter);
 		
-		for (int i = 0; i < (wave_no*rifle_no); i++){
-			rifle = new RifleMan(device);
-			rifle.vehicle = helicopter;
-			rifle.x = helicopter.x;
-			rifle.y = helicopter.y;
-			rifle.in_vehicle = true;
-			entities.add(rifle);	
+		
+		// MOTAR
+		if (wave_no > 5){
+			for (int i = 0; i < ((wave_no-5)*motar_no); i++){
+				bazooka = new Bazooka(device);
+				entities.add(bazooka);	
+			}
 		}
+			
+		if (wave_no > 7){
+			helicopter = new Helicopter(device);
+			entities.add(helicopter);
+			
+			for (int i = 0; i < (wave_no*rifle_no); i++){
+				rifle = new RifleMan(device);
+				rifle.vehicle = helicopter;
+				rifle.x = helicopter.x;
+				rifle.y = helicopter.y;
+				rifle.in_vehicle = true;
+				rifle.gun.damage = 3;
+				rifle.gun.bullet_size = 3;
+				entities.add(rifle);	
+			}
+		}
+		
+		if (wave_no > 10){
+			helicopter = new Helicopter(device);
+			entities.add(helicopter);
+			
+			for (int i = 0; i < (wave_no*rifle_no); i++){
+				rifle = new RifleMan(device);
+				rifle.vehicle = helicopter;
+				rifle.x = helicopter.x;
+				rifle.y = helicopter.y;
+				rifle.in_vehicle = true;
+				rifle.gun.damage = 4;
+				rifle.gun.bullet_size = 3;
+				entities.add(rifle);	
+			}
+		}
+		
     }
-
+	
 	public void tick(ArrayList<Entity> entities){
 		if (all_dead && next_wave_count == 0 && !walk_to_next_wave){
 		    Iterator<Entity> e = entities.iterator();
@@ -77,11 +109,30 @@ public class Wave {
 				}
 		    }
 			next_wave(entities);
-			next_wave_count = 320;
+			next_wave_count = 300;
 		} else if (all_dead && next_wave_count > 0){
+			//System.out.println(wave_no);
+			
+			//if (wave_no > 10){
+			// Drop medi pack
+			//}
+			
 			walk_to_next_wave = true;
 		} else if (all_dead && next_wave_count <= 0){
 			walk_to_next_wave = false;
 		}
+	}
+	
+	public void reset(ArrayList<Entity> entities){
+	    Iterator<Entity> e = entities.iterator();
+		while(e.hasNext()){
+		   	Entity entity = e.next();
+		   	if (entity.type == TYPE.SOLDIER){
+				e.remove();
+			}
+		}
+		wave_no = 0;
+		next_wave_count = 300;
+		walk_to_next_wave = true;
 	}
 }
