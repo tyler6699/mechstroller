@@ -27,6 +27,7 @@ public class Game {
 	Entity shop_1, shop_2, shop_3;
 	boolean play_rifle, start, death;
     BitmapFont font;
+    float start_time = 0;
 	
 	// Next Wave
 	public Animation new_wave_anim;
@@ -50,7 +51,7 @@ public class Game {
 		
 		// FONT
 		font = new BitmapFont();
-		
+		font.scale(5);
 		next_wave_frames = TextureRegion.split(Art.next_wave, 303, 40)[0];
 		new_wave_anim = new Animation(0.2f, next_wave_frames);
 				
@@ -135,13 +136,15 @@ public class Game {
 		} else if (death){
 			if (gc.LMB){
 				death = false;
+				
 				// WAVE ATTACKS
-				wave.reset(entities);
-				System.out.println(wave.wave_no);
+				wave.reset(entities);				
 			}
 		} else {
-			if (gc.LMB){
+			if (gc.LMB && start_time <= 0){
 				start = true;
+			} else {
+				start_time --;
 			}
 		}
 		
@@ -161,9 +164,11 @@ public class Game {
 		
 		if (!start && !death){
 			batch.draw(intro, device.w/2 - intro.getWidth()/2,device.h/2 - intro.getHeight()/2,intro.getWidth(), intro.getHeight());
+			
 		} else if (death){
 			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			font.draw(batch, "GAME OVER", 25, 160);
+			font.draw(batch, "GAME OVER", device.w/2 - 250, device.h/2);
+			
 		} else {
 			if (wave.walk_to_next_wave){
 				wave_frame = new_wave_anim.getKeyFrame(tick, true);

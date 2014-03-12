@@ -57,7 +57,7 @@ public class Player extends Entity {
 		this.device = device;
 		
 		// HP
-		max_hp = 3;
+		max_hp = 3500;
 		hp = max_hp;
 
 		// WEAPON
@@ -92,9 +92,9 @@ public class Player extends Entity {
 	public void tick(float delta, SpriteBatch batch, Game game, GameController gc) {	
 		if(hp<0){
 			game.death = true;
+			game.start = false;
 			hp = max_hp;
-		} else {
-			
+			game.start_time = 100;		
 		}
 		pos.set(x,y);
 		
