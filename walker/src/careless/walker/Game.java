@@ -26,7 +26,7 @@ public class Game {
 	float tick = 0;
 	Entity shop_1, shop_2, shop_3;
 	boolean play_rifle, start, death;
-    //BitmapFont font;
+    BitmapFont font;
     float start_time = 0;
 	
 	// Next Wave
@@ -51,8 +51,8 @@ public class Game {
 		
 		// FONT
 
-		//font = new BitmapFont(Gdx.files.internal("data/walker/arial-15.fnt"),false);
-		//font.scale(3);
+		font = new BitmapFont();
+		font.scale(3);
 		next_wave_frames = TextureRegion.split(Art.next_wave, 303, 40)[0];
 		new_wave_anim = new Animation(0.2f, next_wave_frames);
 				
@@ -167,15 +167,15 @@ public class Game {
 			batch.draw(intro, device.w/2 - intro.getWidth()/2,device.h/2 - intro.getHeight()/2,intro.getWidth(), intro.getHeight());
 			
 		} else if (death){
-			//font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-			//font.draw(batch, "GAME OVER", device.w/2 - 200, device.h/2);
+			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			font.draw(batch, "GAME OVER", device.w/2 - 200, device.h/2);
 			
 		} else {
 			if (wave.walk_to_next_wave){
 				wave_frame = new_wave_anim.getKeyFrame(tick, true);
 				batch.draw(wave_frame, device.w/2 - 151f, device.h/2, 303, 40);
-				//font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				//font.draw(batch, "Wave: " + wave.wave_no, device.w/2 - 100, device.h - 250);
+				font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				font.draw(batch, "Wave: " + wave.wave_no, device.w/2 - 100, device.h - 250);
 			}
 			
 			// HUD
