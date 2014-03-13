@@ -25,7 +25,7 @@ public class Game {
 	HiFi hifi;
 	float tick = 0;
 	Entity shop_1, shop_2, shop_3;
-	boolean play_rifle, start, death;
+	boolean play_rifle, start, death, complete;
     BitmapFont font;
     float start_time = 0;
 	
@@ -41,6 +41,7 @@ public class Game {
 		this.hifi = new HiFi();
 		start = false;
 		death = false;
+		complete = false;
 		
 		// All Entities
 		entities = new ArrayList<Entity>();
@@ -79,7 +80,7 @@ public class Game {
 		shop_3.h = shop_3.texture.getHeight();
 
 		// WAVE ATTACKS
-		wave = new Wave(device, entities);
+		wave = new Wave(device, entities, bot, this);
 		
 		background = new Texture(Gdx.files.internal("data/walker/background.png"));
 		cursor = new Texture(Gdx.files.internal("data/walker/crosshair.png"));
@@ -96,7 +97,9 @@ public class Game {
 	}
 	
 	public void tick(float delta, GameController gc){	
-		if (start && !death){
+		if (complete){	
+		
+		} else if (start && !death){
 			// FIRE BOTS GUNS
 			if (gc.LMB){
 				if (bot.gun.isReady_to_fire() && bot.gun.heat <= bot.gun.max_heat && (in_shoot_area()) ){
@@ -163,7 +166,11 @@ public class Game {
 		batch.draw(shop_2.texture, shop_2.x,shop_2.y,shop_2.w,shop_2.h);
 		batch.draw(shop_3.texture, shop_3.x,shop_3.y,shop_3.w,shop_3.h);
 		
-		if (!start && !death){
+		if (complete){	
+			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			font.draw(batch, "YOU WIN", device.w/2 - 100, device.h/2 + 100);
+			font.draw(batch, "THANKS FOR PLAYING!", device.w/2 - 300, device.h/3);
+		} else if (!start && !death){
 			batch.draw(intro, device.w/2 - intro.getWidth()/2,device.h/2 - intro.getHeight()/2,intro.getWidth(), intro.getHeight());
 			
 		} else if (death){
@@ -221,7 +228,7 @@ public class Game {
 			Collections.sort(entities);
 			
 			//WAVE
-			wave.tick(entities);
+			wave.tick(entities, bot, this);
 		}
 	}
 	

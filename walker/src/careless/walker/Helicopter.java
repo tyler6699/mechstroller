@@ -36,7 +36,14 @@ public class Helicopter extends Soldier{
 		
 		liveable = true;
 		//run_left = true;
-		run_left = true;
+		if (device.random_int(0, 10) > 5) {
+			run_left = true;
+		} else {
+			run_right = true;
+			x 		 = -w;
+			dest_x   = device.random_int(100,device.w/2);
+		}
+		
 		drop_off = false;
 		
 		direction = FACING.LEFT;
@@ -89,7 +96,16 @@ public class Helicopter extends Soldier{
 		}
 		
 		if (run_right){
-			
+			if (x < dest_x){
+				x += 4.5F;
+				if(t > 70){
+					t-=.2f;
+				}
+			} else {
+				reset();
+				tick = 0;
+				drop_off = true;
+			}
 		} else if(run_left) {
 			if (x > dest_x){
 				x -= 4.5F;

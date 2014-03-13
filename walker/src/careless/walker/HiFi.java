@@ -16,6 +16,7 @@ public class HiFi {
 	private static Sound bazooka_die;
 	private static float heli_count;
 	private static float bike_count;
+	private static float stop_count;
 	private static Sound bike;
 	
 	public HiFi(){
@@ -54,14 +55,20 @@ public class HiFi {
 	}
 	
 	public static void stop_gattling(boolean sound_on){
-		gattling_stop.play(.7f);
+		stop_count ++;
+		if (stop_count == 1){
+			gattling_stop.play(.7f);
+		} else if (stop_count > 20) {
+			stop_count = 0;
+		}
+		
 	}
 	
 	public static void play_helicopter(boolean sound_on){
 		heli_count ++;
 		if (heli_count == 1){
 			helicopter.play(.5f);;
-		} else if (heli_count > 20) {
+		} else if (heli_count > 35) {
 			heli_count = 0;
 		}
 	}

@@ -57,7 +57,7 @@ public class Player extends Entity {
 		this.device = device;
 		
 		// HP
-		max_hp = 3500;
+		max_hp = 800;
 		hp = max_hp;
 
 		// WEAPON
